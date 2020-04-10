@@ -24,7 +24,7 @@
                             <tr>
                             <td>{{$order->id}}</td>    
                             <td>{{$order->PO}}</td>
-                            <td>{{$order->items->user->company}}</td>
+                            <td>{{$order->items->user->company->name}}</td>
                             <td>{{$order->items->name}}</td>
                             <td>{{$order->quantity}} {{$order->items->unit}}</td>
                             <td>{{$order->rate}}</td>

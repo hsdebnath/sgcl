@@ -16,6 +16,11 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->string('company_id');
+            $table->float('debit');
+            $table->float('credit');
+            $table->float('balance');
+            $table->string('note');
         });
     }
 
