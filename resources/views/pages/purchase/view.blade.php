@@ -22,7 +22,7 @@
                         @foreach ($purchase as $pur)
                             <tr>
                             <td>{{$pur->id}}</td>    
-                            <td>{{$pur->items->user->name}}</td>
+                            <td>{{$pur->items->company->name}}</td>
                             <td>{{$pur->items->name}}</td>
                             <td>{{$pur->rate}}</td>
                             <td>{{$pur->quantity}}</td>

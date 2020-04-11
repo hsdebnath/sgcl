@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Inventory;
-Use DB;
+use App\company;
 
-class InventoryController extends Controller
+class CompaniesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class InventoryController extends Controller
      */
     public function index()
     {
-       $inventory = Inventory::where('quantity', '>',0)->get();
-       return view('pages.inventory.view')->with('inventory',$inventory);
+        $company = company::all();
+       return view('pages.company.view')->with('company',$company);
     }
 
     /**
@@ -26,7 +25,7 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.company.create');
     }
 
     /**
@@ -37,7 +36,20 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'phone' => 'required',
+            'address' => 'required'
+        ]);
+
+        //add new
+        $company = new company;
+        $company->name = $request->input('name');
+        $company->phone = $request->input('phone');
+        $company->address = $request->input('address');
+        $company->save();
+
+        return redirect('/company')->with('success', 'Company added !');
     }
 
     /**
@@ -48,9 +60,7 @@ class InventoryController extends Controller
      */
     public function show($id)
     {
-        $items = DB::table("inventories")->where("items_id",$id)->get();
-
-        return json_encode($items);
+        //
     }
 
     /**

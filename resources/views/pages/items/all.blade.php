@@ -21,7 +21,7 @@
                             <tr>
                             <td>{{$item->id}}</td>    
                             <td>{{$item->name}}</td>
-                            <td>{{$item->user->company->name}}</td>
+                            <td>{{$item->company->name}}</td>
                             <td>{{$item->unit}}</td>
                             </tr>
                         @endforeach

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class items extends Model
 {
-    public function user()
+    public function company()
     {
-        return $this->belongsTo('App\User','vendor_id');
+        return $this->belongsTo('App\Company','vendor_id');
     }
 
     public function purchase()

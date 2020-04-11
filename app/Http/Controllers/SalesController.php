@@ -52,12 +52,12 @@ class SalesController extends Controller
         $sales->orders_id = $request->input('order');
         $sales->quantity = $request->input('quantity');
         $sales->expanse = $request->input('expanse');
-       // $sales->save();
+        
 
         //account adjust
         //get company ID
-        $data = order::where('id', $sales->orders_id)->get(['users_id','rate', 'items_id']);
-        $company_id = $data[0]->users_id;
+        $data = order::where('id', $sales->orders_id)->get(['companies_id','rate', 'items_id']);
+        $company_id = $data[0]->companies_id;
         $rate = $data[0]->rate;
         //get old balance
         $balance = account::where('company_id', $company_id)->pluck('balance');
@@ -80,7 +80,7 @@ class SalesController extends Controller
         $account->note = "manual entry note";
         //$out = "c_id => ".$account->company_id.", Debit=> ".$debit.", Credit=> ".$credit.", balance=> $balance";
         //return $out;
-        //$account->save();
+        
 
         //adjust inventory
         $item = $data[0]->items_id; //from account adjust part
@@ -103,6 +103,10 @@ class SalesController extends Controller
 
             }else{return redirect('/sales')->with('error', 'Inventory Error !!');}
         }
+
+        //saving after inventory is adjusted
+        $sales->save();
+        $account->save();
 
         return redirect('/sales')->with('success', 'Item Sold !');
     }    

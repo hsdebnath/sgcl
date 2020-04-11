@@ -22,7 +22,7 @@
                             {{Form::label('vendor', 'Vendor')}}
                             <select name="vendor" class="form-control">
                                 <option value="">--Select Vendor--</option>
-                                @foreach ($users as $id => $name)
+                                @foreach ($company as $id => $name)
                                 <option value="{{ $id }}"> {{ $name }}</option>   
                                 @endforeach
                             </select>

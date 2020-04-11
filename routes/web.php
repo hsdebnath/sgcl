@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 Route::get('/home', 'PagesController@index');
 
 Route::get('/dash', 'PagesController@dash');
@@ -34,3 +35,5 @@ Route::resource('inventory', 'InventoryController');
 Route::resource('orders', 'OrdersController');
 
 Route::resource('sales', 'SalesController');
+
+Route::resource('company', 'CompaniesController');

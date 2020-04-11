@@ -15,7 +15,7 @@ class AddPhoneAndCompanyToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone');
-            $table->string('company_id');
+            $table->string('company_id')->nullable();
         });
     }
 

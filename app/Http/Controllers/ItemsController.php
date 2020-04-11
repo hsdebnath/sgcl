@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\items;
-use App\User;
+use App\Company;
 use DB;
 
 class ItemsController extends Controller
@@ -31,7 +31,7 @@ class ItemsController extends Controller
     public function create()
     {   
         //$users = user::all();
-        $users = user::pluck('name', 'id');
+        $users = company::pluck('name', 'id');
         return view('pages.items.create')->with('users', $users);
     }
 

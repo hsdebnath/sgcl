@@ -11,9 +11,9 @@ class Order extends Model
         return $this->belongsTo('App\items');
     }
 
-    public function users()
+    public function company()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Company', 'companies_id');
     }
 
     public function sales()

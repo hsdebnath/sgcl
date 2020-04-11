@@ -15,15 +15,15 @@
                             <th>id</th>
                             <th>name</th>
                             <th>Quanity</th>
-                            <th>unit</th>
+                            <th>Vendor</th>
                             <th>rate</th>
                         </tr>
                         @foreach ($inventory as $inv)
                             <tr>
                             <td>{{$inv->id}}</td>    
                             <td>{{$inv->items->name}}</td>
-                            <td>{{$inv->quantity}}</td>
-                            <td>{{$inv->items->unit}}</td>
+                            <td>{{$inv->quantity}} {{$inv->items->unit}}</td>
+                            <td>{{$inv->items->company->name}}</td>
                             <td>{{$inv->rate}}</td>
                             </tr>
                         @endforeach

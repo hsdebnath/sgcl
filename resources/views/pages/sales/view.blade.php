@@ -23,7 +23,7 @@
                         @foreach ($sales as $sale)
                             <tr>
                             <td>{{$sale->id}}</td>    
-                            <td>{{$sale->orders->users->name}}</td>
+                            <td>{{$sale->orders->company->name}}</td>
                             <td>{{$sale->orders->items->name}}</td>
                             <td>{{$sale->orders->PO}}</td>
                             <td>{{$sale->quantity}} {{$sale->orders->items->unit}}</td>

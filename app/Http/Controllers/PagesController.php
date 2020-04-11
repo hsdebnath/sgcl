@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\user;
+use App\account;
+use DB;
 
 class PagesController extends Controller
 {
@@ -34,7 +36,17 @@ class PagesController extends Controller
 
     public function report()
     {
-        return view('pages.report');
+        // get last balance of all companies
+        $data = DB::select('select t.company_id,(select name from companies where id = t.company_id) name, t.balance
+        from accounts t
+        inner join (
+            select company_id, max(updated_at) as MaxDate
+            from accounts
+            group by company_id
+        ) tm on t.company_id = tm.company_id and t.updated_at = tm.MaxDate');
+
+        return view('pages.report')->with('data',$data);
+
     }
 
     public function users()
@@ -44,3 +56,12 @@ class PagesController extends Controller
     }
     
 }
+
+// // get last balance of all companies
+// $data = DB::select('select t.company_id, t.balance
+//         from accounts t
+//         inner join (
+//             select company_id, max(updated_at) as MaxDate
+//             from accounts
+//             group by company_id
+//         ) tm on t.company_id = tm.company_id and t.updated_at = tm.MaxDate');

@@ -13,8 +13,25 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are in Report page
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Company</th>
+                                <th>Payable</th>
+                                <th>Recieveable</th>
+                            </tr>
+                                @foreach ($data as $item)
+                                <tr>
+                                    <td>{{$item->name}}</td>
+                                    @if ($item->balance < 0 )
+                                        <td>{{-1 * $item->balance}}</td>
+                                        <td>0</td>    
+                                    @else 
+                                        <td>0</td>
+                                        <td>{{$item->balance}}</td>      
+                                    @endif
+                                </tr>    
+                                @endforeach
+                        </table>
                 </div>
             </div>
         </div>

@@ -15,4 +15,14 @@ class Company extends Model
     {
         return $this->hasMany('App\Account');
     }
+
+    public function items()
+    {
+        return $this->hasMany('App\items');
+    }
+
+    public function order()
+    {
+        return $this->hasMany('App\order');
+    }
 }

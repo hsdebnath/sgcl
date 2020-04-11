@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <h1>Purchase Item</h1>
+                    <h1>Sales Item</h1>
                     {!! Form::open(['action' => 'SalesController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         
                         {{-- select box code --}}

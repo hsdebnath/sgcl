@@ -14,15 +14,15 @@
                         </div>
                     @endif
 
-                    <h1>Create New Item</h1>
+                    <h1>Create New Order</h1>
                     {!! Form::open(['action' => 'OrdersController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         
                         {{-- select box code --}}
                         <div class="form-group">
                             {{Form::label('client', 'Client Name')}}
                             <select name="client" class="form-control">
-                                <option value="">--Select Client--</option>
-                                @foreach ($users as $id => $name)
+                                <option value="">--Order from--</option>
+                                @foreach ($company as $id => $name)
                                 <option value="{{ $id }}"> {{ $name }}</option>   
                                 @endforeach
                             </select>

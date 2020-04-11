@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use\App\Order;
-use\App\user;
+use\App\Company;
 use\App\items;
 use DB;
 
@@ -27,10 +28,11 @@ class OrdersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        $users = user::pluck('name', 'id');
+    {   
+        $my_company =  Auth::user()->company_id;
+        $company = company::where('id', '!=', $my_company)->pluck('name', 'id');
         $items = items::pluck('name', 'id');
-        return view('pages.orders.create')->with(compact('users', 'items'));
+        return view('pages.orders.create')->with(compact('company', 'items'));
     }
 
     /**
@@ -51,7 +53,7 @@ class OrdersController extends Controller
 
         //add new
         $order = new order;
-        $order->users_id = $request->input('client');
+        $order->companies_id = $request->input('client');
         $order->items_id = $request->input('item');
         $order->PO = $request->input('po');
         $order->rate = $request->input('rate');

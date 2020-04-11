@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\purchase;
-use App\user;
+use App\company;
 Use App\account;
 use App\inventory;
 
@@ -28,8 +29,9 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        $users = user::pluck('name', 'id');
-        return view('pages.purchase.create')->with('users', $users);
+        $my_company =  Auth::user()->company_id;
+        $company = company::where('id', '!=', $my_company)->pluck('name', 'id');
+        return view('pages.purchase.create')->with('company', $company);
     }
 
     /**
@@ -52,7 +54,6 @@ class PurchaseController extends Controller
         $purchase->items_id = $request->input('item');
         $purchase->quantity = $request->input('quantity');
         $purchase->rate = $request->input('rate');
-        $purchase->save();
 
         
         //adjust inventory
@@ -92,7 +93,7 @@ class PurchaseController extends Controller
         //return "Item=> ".$item." || quantity=> ".$quantity." || rate=> ".$rate;
 
 
-        //account adjust        
+        //client account adjust        
         //get old balance
         $company_id = $request->input('vendor');
         $balance = account::where('company_id', $company_id)->pluck('balance');
@@ -116,6 +117,9 @@ class PurchaseController extends Controller
         $account->note = "manual entry note";
        // $out = "c_id => ".$account->company_id.", Debit=> 0, Credit=> ".$credit.", balance=> $balance";
         //return $out;
+
+        //saving after inventory is adjusted
+        $purchase->save();
         $account->save();
 
         return redirect('/purchase')->with('success', 'Item purchased !');

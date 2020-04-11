@@ -26,7 +26,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     @if(Auth::user()) 
-                        {{ Auth::user()->name }} [ {{ Auth::user()->company->name }} ]
+                        {{ Auth::user()->name }}
                     @endif    
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
