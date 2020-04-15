@@ -31,11 +31,6 @@ class PagesController extends Controller
 
     public function dash()
     {
-        return view('pages.dash');
-    }
-
-    public function report()
-    {
         // get last balance of all companies
         $data = DB::select('select t.company_id,(select name from companies where id = t.company_id) name, t.balance
         from accounts t
@@ -45,8 +40,12 @@ class PagesController extends Controller
             group by company_id
         ) tm on t.company_id = tm.company_id and t.updated_at = tm.MaxDate');
 
-        return view('pages.report')->with('data',$data);
+        return view('pages.dash')->with('data',$data);
+    }
 
+    public function report()
+    {
+        return view('pages.home');
     }
 
     public function users()

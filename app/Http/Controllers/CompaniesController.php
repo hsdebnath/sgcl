@@ -21,7 +21,7 @@ class CompaniesController extends Controller
     public function index()
     {   
         $my_company =  Auth::user()->company_id;
-        $company = company::where('id', '!=', $my_company)->orderBy('id','desc')->paginate('2');
+        $company = company::where('id', '!=', $my_company)->orderBy('id','desc')->paginate('20');
        return view('pages.company.view')->with('company',$company);
     }
 

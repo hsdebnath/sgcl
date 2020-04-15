@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Company <a href="/company/create" class="btn btn-success btn-sm float-right">Add New</a></div>
 
-                <div class="card-body">
+                {{-- <div class="card-body"> --}}
                     @if (count($company) > 0)
                         
                     <table class="table table-striped">
@@ -31,7 +31,6 @@
                         @endforeach
                         
                     </table>
-                    <div class="pull-right">{{$company->links()}}</div>
                     @else
                         <h3>No Company Found !!</h3>
                     @endif

@@ -25,7 +25,7 @@ class SalesController extends Controller
     
     public function index()
     {
-        $sales = sales::orderBy('id','desc')->paginate('2');
+        $sales = sales::orderBy('id','desc')->paginate('20');
         return view('pages.sales.view')->with('sales',$sales);
     }
 

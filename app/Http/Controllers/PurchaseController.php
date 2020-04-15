@@ -25,7 +25,7 @@ class PurchaseController extends Controller
     
     public function index()
     {
-        $purchase = purchase::orderBy('id','desc')->paginate('2');
+        $purchase = purchase::orderBy('id','desc')->paginate('20');
         return view('pages.purchase.view')->with('purchase',$purchase);
     }
 

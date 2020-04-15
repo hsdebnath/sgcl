@@ -25,7 +25,7 @@ class ItemsController extends Controller
     {
         //$user_id = Auth()->User()->id;
         //$user = User::find($user_id);
-        $items = items::orderBy('id','desc')->paginate('2');
+        $items = items::orderBy('id','desc')->paginate('20');
        return view('pages.items.all')->with('items',$items);
 
     }

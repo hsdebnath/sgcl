@@ -22,7 +22,7 @@ class InventoryController extends Controller
     
     public function index()
     {
-       $inventory = Inventory::where('quantity', '>',0)->orderBy('id','desc')->paginate('2');
+       $inventory = Inventory::where('quantity', '>',0)->orderBy('id','desc')->paginate('20');
        return view('pages.inventory.view')->with('inventory',$inventory);
     }
 

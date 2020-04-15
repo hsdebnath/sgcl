@@ -13,7 +13,7 @@ $(document).ready(function() {
                 success:function(data) {
 
                     $('select[name="item"]').empty();
-
+                    $('select[name="item"]').append('<option value="">--Select Item --</option>');
                     $.each(data, function(key, value){
 
                         $('select[name="item"]').append('<option value="'+ key +'">' + value + '</option>');
@@ -23,6 +23,7 @@ $(document).ready(function() {
             });
         } else {
             $('select[name="item"]').empty();
+            $('select[name="item"]').append('<option value="">--This vendor has no item--</option>');
         }
 
     });

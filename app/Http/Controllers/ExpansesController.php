@@ -24,7 +24,7 @@ class ExpansesController extends Controller
     
     public function index()
     {
-        $expanses = expanse::orderBy('id','desc')->paginate('2');
+        $expanses = expanse::orderBy('id','desc')->paginate('20');
         return view('pages.expanse.view')->with('expanses', $expanses);
     }
 
