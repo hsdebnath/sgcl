@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\company;
 
 class CompaniesController extends Controller
@@ -13,8 +14,9 @@ class CompaniesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $company = company::all();
+    {   
+        $my_company =  Auth::user()->company_id;
+        $company = company::where('id', '!=', $my_company)->orderBy('id','desc')->paginate('2');
        return view('pages.company.view')->with('company',$company);
     }
 

@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header"><a href="/home" role="button">Home / </a>Dashboard</div>
 
-                <div class="card-body">
+                {{-- <div class="card-body"> --}}
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -15,72 +15,37 @@
                     @endif
 
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                           <div class="card">
                             <div class="card-body">
-                              <h5 class="card-title">Orders</h5>
-                              <p class="card-text">With supporting text below as a natural lead-in.</p>
-                              <a href="orders" class="btn btn-primary">Go →</a>
+                            <a href="orders" class="btn btn-primary btn-block">Orders</a>
+                            <a href="sales" class="btn btn-primary btn-block">Salses</a>
+                            <a href="purchase" class="btn btn-primary btn-block">Purchase</a>
                             </div>
                           </div>
                         </div>
-                        <div class="col-sm-3">
+
+                        <div class="col-sm-4">
                           <div class="card">
                             <div class="card-body">
-                              <h5 class="card-title">Salses</h5>
-                              <p class="card-text">With supporting text below as a natural lead-in.</p>
-                              <a href="sales" class="btn btn-primary">Go →</a>
+                              <a href="/inventory" class="btn btn-primary btn-block">inventory </a>
+                              <a href="items" class="btn btn-primary btn-block">Items </a>
+                              <a href="users" class="btn btn-primary btn-block">Users </a> 
+                              <a href="company" class="btn btn-primary btn-block">Clients </a>                          
                             </div>
                           </div>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="card">
-                              <div class="card-body">
-                                <h5 class="card-title">Purchase</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in.</p>
-                                <a href="purchase" class="btn btn-primary">Go →</a>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
+
+                        <div class="col-sm-4">
                           <div class="card">
                             <div class="card-body">
-                              <h5 class="card-title">Company</h5>
-                              <p class="card-text">With supporting text below as a natural lead-in.</p>
-                              <a href="company" class="btn btn-primary">Go →</a>
+                            <a href="account" class="btn btn-primary btn-block">Transactions </a>
+                            <a href="/expanse" class="btn btn-primary btn-block">Expanses </a>
+                            <a href="fund" class="btn btn-primary btn-block">Funds</a>
                             </div>
                           </div>
                       </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-3">
-                          <div class="card">
-                            <div class="card-body">
-                              <h5 class="card-title">inventory</h5>
-                              <p class="card-text">With supporting text below as a natural lead-in.</p>
-                              <a href="/inventory" class="btn btn-primary">Go →</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-3">
-                          <div class="card">
-                            <div class="card-body">
-                              <h5 class="card-title">Itmes</h5>
-                              <p class="card-text">With supporting text below as a natural lead-in.</p>
-                              <a href="items" class="btn btn-primary">Go →</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card">
-                              <div class="card-body">
-                                <h5 class="card-title">users</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in.</p>
-                                <a href="users" class="btn btn-primary">Go →</a>
-                              </div>
-                            </div>
-                        </div>
+
                     </div>
 
                 </div>

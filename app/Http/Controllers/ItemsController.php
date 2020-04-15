@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\items;
 use App\Company;
 use DB;
@@ -18,7 +19,7 @@ class ItemsController extends Controller
     {
         //$user_id = Auth()->User()->id;
         //$user = User::find($user_id);
-        $items = items::all();
+        $items = items::orderBy('id','desc')->paginate('2');
        return view('pages.items.all')->with('items',$items);
 
     }
@@ -31,7 +32,8 @@ class ItemsController extends Controller
     public function create()
     {   
         //$users = user::all();
-        $users = company::pluck('name', 'id');
+        $my_company =  Auth::user()->company_id;
+        $users = company::where('id', '!=', $my_company)->pluck('name', 'id');
         return view('pages.items.create')->with('users', $users);
     }
 

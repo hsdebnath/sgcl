@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><a href="/home" role="button">Home / </a><a href="/dash" role="button">Dashboard / </a> <a href="/sales">Sales</a></div>
+                <div class="card-header"><a href="/dash" role="button">Dashboard / </a> <a href="/sales">Sales</a></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -39,7 +39,7 @@
                             {{Form::text('expanse', '', ['class' => 'form-control', 'placeholder' => 'Expanse'])}}
                         </div>
 
-                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary btn-block'])}}
                     {!! Form::close() !!}
 
                 </div>

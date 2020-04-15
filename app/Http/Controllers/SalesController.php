@@ -18,7 +18,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = sales::all();
+        $sales = sales::orderBy('id','desc')->paginate('2');
         return view('pages.sales.view')->with('sales',$sales);
     }
 
@@ -51,7 +51,7 @@ class SalesController extends Controller
         $sales = new sales;
         $sales->orders_id = $request->input('order');
         $sales->quantity = $request->input('quantity');
-        $sales->expanse = $request->input('expanse');
+        $sales->expanse = $request->input('expanse');//one line of code in account adjust section ↓
         
 
         //account adjust
@@ -59,6 +59,11 @@ class SalesController extends Controller
         $data = order::where('id', $sales->orders_id)->get(['companies_id','rate', 'items_id']);
         $company_id = $data[0]->companies_id;
         $rate = $data[0]->rate;
+
+        //this code is for sales table ******
+        $sales->sales_rate = $rate;
+
+
         //get old balance
         $balance = account::where('company_id', $company_id)->pluck('balance');
         //new account
@@ -77,7 +82,7 @@ class SalesController extends Controller
         $account->debit = $debit;
         $account->credit = $credit;
         $account->balance = $balance;
-        $account->note = "manual entry note";
+        $account->note = "Auto entry by sales";
         //$out = "c_id => ".$account->company_id.", Debit=> ".$debit.", Credit=> ".$credit.", balance=> $balance";
         //return $out;
         

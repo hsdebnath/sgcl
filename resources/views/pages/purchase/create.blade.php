@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><a href="/home" role="button">Home / </a><a href="/dash" role="button">Dashboard / </a> <a href="/purchase">Purchase</a></div>
+                <div class="card-header"><a href="/dash" role="button">Dashboard / </a> <a href="/purchase">Purchase</a></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -46,7 +46,7 @@
                             {{Form::text('rate', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Rate'])}}
                         </div>
 
-                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary btn-block'])}}
                     {!! Form::close() !!}
 
                 </div>

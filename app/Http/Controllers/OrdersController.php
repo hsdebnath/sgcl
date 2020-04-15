@@ -18,7 +18,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::orderBy('id','desc')->paginate('2');
         return view('pages.orders.view')->with('orders',$orders);
     }
 
@@ -95,7 +95,17 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //return $id;
+        $this->validate($request, [
+            'status' => 'required'
+        ]);
+
+        //add new
+        $order = order::find($id);
+        $order->status = $request->input('status');
+        $order->save();
+
+        return redirect('/orders')->with('success', 'Order status updated !');
     }
 
     /**

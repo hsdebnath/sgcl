@@ -5,12 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><a href="/home" role="button">Home / </a><a href="/dash" role="button">Dashboard / </a>Items <a href="/items/create" class="btn btn-success btn-sm float-right">Add New</a></div>
+                <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Items <a href="/items/create" class="btn btn-success btn-sm float-right">Add New</a></div>
 
-                <div class="card-body">
+                {{-- <div class="card-body"> --}}
                     @if (count($items) > 0)
                         
-                    <table class="table table-bordered">
+                    <table class="table table-striped">
                         <tr>
                             <th>id</th>
                             <th>name</th>

@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Company','company_id');
     }
+
+    public function expanse()
+    {
+        return $this->hasMany('App\expanse');
+    }
 }

@@ -17,9 +17,9 @@ class CreateAccountsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('company_id');
-            $table->float('debit');
-            $table->float('credit');
-            $table->float('balance');
+            $table->float('debit', '11', '2');
+            $table->float('credit', '11', '2');
+            $table->float('balance', '11', '2');
             $table->string('note');
         });
     }

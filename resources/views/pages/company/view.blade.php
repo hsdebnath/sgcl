@@ -5,27 +5,33 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><a href="/home" role="button">Home / </a><a href="/dash" role="button">Dashboard / </a>Company <a href="/company/create" class="btn btn-success btn-sm float-right">Add New</a></div>
+                <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Company <a href="/company/create" class="btn btn-success btn-sm float-right">Add New</a></div>
 
                 <div class="card-body">
                     @if (count($company) > 0)
                         
-                    <table class="table table-bordered">
+                    <table class="table table-striped">
                         <tr>
-                            <th>id</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Address</th>
                         </tr>
                         @foreach ($company as $data)
-                            <tr>
-                            <td>{{$data->id}}</td>    
+                            <tr data-toggle="collapse" data-target="#col{{$data->id}}">   
                             <td>{{$data->name}}</td>
                             <td>{{$data->phone}}</td>
                             <td>{{$data->address}}</td>
                             </tr>
+                            <tr id="col{{$data->id}}" class="collapse out">
+                                <td colspan="4"><p>Name - {{$data->name}} [{{$data->id}}]<br>
+                                                   Phone - {{$data->phone}}<br>
+                                                   Address - {{$data->address}}.<br></p>
+                                </td>                   
+                            </tr>
                         @endforeach
+                        
                     </table>
+                    <div class="pull-right">{{$company->links()}}</div>
                     @else
                         <h3>No Company Found !!</h3>
                     @endif

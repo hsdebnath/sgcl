@@ -15,7 +15,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
-       $inventory = Inventory::where('quantity', '>',0)->get();
+       $inventory = Inventory::where('quantity', '>',0)->orderBy('id','desc')->paginate('2');
        return view('pages.inventory.view')->with('inventory',$inventory);
     }
 

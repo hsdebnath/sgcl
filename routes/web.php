@@ -37,3 +37,9 @@ Route::resource('orders', 'OrdersController');
 Route::resource('sales', 'SalesController');
 
 Route::resource('company', 'CompaniesController');
+
+Route::resource('account', 'AccountsController');
+
+Route::resource('expanse', 'ExpansesController');
+
+Route::resource('fund', 'FundsController');

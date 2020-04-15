@@ -18,7 +18,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchase = purchase::all();
+        $purchase = purchase::orderBy('id','desc')->paginate('2');
         return view('pages.purchase.view')->with('purchase',$purchase);
     }
 
@@ -114,7 +114,7 @@ class PurchaseController extends Controller
         $account->debit = $debit;
         $account->credit = $credit;
         $account->balance = $balance;
-        $account->note = "manual entry note";
+        $account->note = "Auto entry by Purchase";
        // $out = "c_id => ".$account->company_id.", Debit=> 0, Credit=> ".$credit.", balance=> $balance";
         //return $out;
 
