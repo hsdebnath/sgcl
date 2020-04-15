@@ -13,6 +13,11 @@ class CompaniesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {   
         $my_company =  Auth::user()->company_id;

@@ -13,6 +13,13 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    
     public function index()
     {
        $inventory = Inventory::where('quantity', '>',0)->orderBy('id','desc')->paginate('2');
