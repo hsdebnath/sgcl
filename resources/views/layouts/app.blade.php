@@ -111,7 +111,10 @@
     <script>
         $(document).ready(function(){
 
-            $("#wrapper").toggleClass("toggled");
+            if ($(window).width() > 768) {
+
+                $("#wrapper").toggleClass("toggled");
+            }           
             
             $("#menu-toggle").click(function(e) {
             e.preventDefault();
