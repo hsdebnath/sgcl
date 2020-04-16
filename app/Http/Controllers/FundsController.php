@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\fund;
 use App\account;
+use App\bank;
 
 class FundsController extends Controller
 {
@@ -34,7 +35,9 @@ class FundsController extends Controller
      */
     public function create()
     {
-        return view('pages.fund.create');
+        $my_company =  Auth::user()->company_id;
+        $banks = bank::where('companies_id', $my_company)->pluck('name', 'id');
+        return view('pages.fund.create')->with('banks', $banks);
     }
 
     /**
@@ -54,8 +57,12 @@ class FundsController extends Controller
 
         //Company account adjust        
         //get old balance
+        $input_amount = $request->input('amount');
         $company_id = Auth::user()->company_id;
         $balance = account::where('company_id', $company_id)->orderBy('id','desc')->take('1')->pluck('balance');
+        $bank_balance = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->pluck('balance');
+        
+        $bank_balance = $bank_balance[0];
         //return $company_id." || ".$balance[0];
         //new account
         if ($balance->isEmpty()){
@@ -64,7 +71,7 @@ class FundsController extends Controller
             $balance = $balance[0];
         }
         //return $balance;
-        $debit = $request->input('amount');
+        $debit = $input_amount;
         $credit = 0;
         $balance += $debit - $credit;
 
@@ -82,8 +89,13 @@ class FundsController extends Controller
         $funds = new fund;
         $funds->by = $request->input('by');
         $funds->type = $request->input('type');
-        $funds->amount = $request->input('amount');
+        $funds->amount = $input_amount;
         $funds->note = $request->input('note');
+
+
+        //User bank balance adjustment
+        $bank_balance += $input_amount; 
+        $bank = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
 
         $account->save();
         $funds->save();

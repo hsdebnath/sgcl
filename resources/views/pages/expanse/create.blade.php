@@ -28,6 +28,16 @@
                                 <option value="other">Other</option>   
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            {{Form::label('bank', 'Bank')}}
+                            <select name="bank" class="form-control">
+                                <option value="">--Select Bank--</option>
+                                @foreach ($banks as $id => $name)
+                                <option value="{{ $id }}"> {{ $name }}</option>   
+                                @endforeach
+                            </select>
+                        </div>
                         
                         <div class="form-group">
                             {{Form::label('employee', 'Employee')}}

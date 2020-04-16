@@ -10,6 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <style>
             html, body {
                 background-color: #fff;
@@ -70,7 +71,7 @@
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ route('login') }}"><h3>Login</h3></a>
+                        
 
                         {{-- @if (Route::has('register'))
                             <a href="{{ route('register') }}">Register</a>
@@ -80,9 +81,10 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    SGCL App
+                <div class="title m-b-md text-muted">
+                    SGCL
                 </div>
+                <a href="{{ route('login') }}" class="btn btn-default btn-block shadow-lg p-3 mb-5"><h3>Login</h3></a>
             </div>
         </div>
     </body>

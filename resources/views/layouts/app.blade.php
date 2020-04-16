@@ -77,6 +77,7 @@
                     <a href="/account" class="list-group-item list-group-item-action bg-light">Transactions</a>
                     <a href="/expanse" class="list-group-item list-group-item-action bg-light border-0">Expanses</a>
                     <a href="/fund" class="list-group-item list-group-item-action bg-light border-0">Funds</a>
+                    <a href="/bank" class="list-group-item list-group-item-action bg-light border-0">Banks</a>
                     <a class="list-group-item list-group-item-action bg-light" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                         if(confirm('Confirm Logout !')){ 

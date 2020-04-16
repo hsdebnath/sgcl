@@ -72,7 +72,7 @@ class SalesController extends Controller
 
 
         //get old balance
-        $balance = account::where('company_id', $company_id)->pluck('balance');
+        $balance = account::where('company_id', $company_id)->orderBy('id','desc')->take('1')->pluck('balance');
         //new account
         if ($balance->isEmpty()){
             $balance = 0;

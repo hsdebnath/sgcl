@@ -25,4 +25,9 @@ class Company extends Model
     {
         return $this->hasMany('App\order');
     }
+
+    public function bank()
+    {
+        return $this->hasMany('App\bank');
+    }
 }

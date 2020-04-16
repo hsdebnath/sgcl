@@ -30,6 +30,16 @@
                         </div>
 
                         <div class="form-group">
+                            {{Form::label('bank', 'Bank')}}
+                            <select name="bank" class="form-control">
+                                <option value="">--Select Bank--</option>
+                                @foreach ($banks as $id => $name)
+                                <option value="{{ $id }}"> {{ $name }}</option>   
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             {{Form::label('by', 'Fund by')}}
                             {{Form::text('by', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Fund by'])}}
                         </div>

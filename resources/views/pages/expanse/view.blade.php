@@ -8,7 +8,7 @@
                 <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Expanse<a href="/expanse/create" class="btn btn-success btn-sm float-right">+ Expanse</a></div>
 
                 {{-- <div class="card-body"> --}}
-                    @if (count($expanses) > 0)
+                @if (count($expanses) > 0)
                         
                     <table class="table table-striped">
                         <tr>
@@ -32,14 +32,14 @@
                             </tr>
                         @endforeach
                     </table>
-                    @else
+                @else
                         <h3>No Items Found !!</h3>
-                    @endif
+                @endif
 
-                </div>
             </div>
         </div>
     </div>
-</div>                    
+</div>
+                   
     
 @endsection

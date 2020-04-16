@@ -43,3 +43,5 @@ Route::resource('account', 'AccountsController');
 Route::resource('expanse', 'ExpansesController');
 
 Route::resource('fund', 'FundsController');
+
+Route::resource('bank', 'BanksController');

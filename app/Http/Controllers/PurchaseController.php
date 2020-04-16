@@ -103,7 +103,7 @@ class PurchaseController extends Controller
         //client account adjust        
         //get old balance
         $company_id = $request->input('vendor');
-        $balance = account::where('company_id', $company_id)->pluck('balance');
+        $balance = account::where('company_id', $company_id)->orderBy('id','desc')->take('1')->pluck('balance');
         //return $company_id." || ".$balance[0];
         //new account
         if ($balance->isEmpty()){

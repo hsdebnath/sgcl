@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\company;
 use App\account;
+use App\bank;
 
 class AccountsController extends Controller
 {
@@ -33,8 +34,9 @@ class AccountsController extends Controller
     public function create()
     {   
         $my_company =  Auth::user()->company_id;
+        $banks = bank::where('companies_id', $my_company)->pluck('name', 'id');
         $companies = company::where('id', '!=', $my_company)->pluck('name', 'id');
-        return view('pages.transaction.create')->with('companies', $companies);
+        return view('pages.transaction.create')->with(compact('companies', 'banks'));
     }
 
     /**
@@ -49,15 +51,21 @@ class AccountsController extends Controller
             'type' => 'required',
             'company' => 'required',
             'amount' => 'required',
+            'bank' => 'required',
             'note' => 'required'
         ]);
         
+        $input_amount = $request->input('amount');
         $client_company = $request->input('company');
         $user_company = Auth::user()->id;
+        $user_company_id = Auth::user()->company_id;
         
         //get old balance
-        $client_balance = account::where('company_id', $client_company)->pluck('balance');
-        $user_balance = account::where('company_id', $user_company)->pluck('balance');
+        $client_balance = account::where('company_id', $client_company)->orderBy('id','desc')->take('1')->pluck('balance');
+        $user_balance = account::where('company_id', $user_company)->orderBy('id','desc')->take('1')->pluck('balance');
+        $bank_balance = bank::where('companies_id', $user_company_id)->where('id', $request->input('bank'))->pluck('balance');
+
+        $bank_balance = $bank_balance[0];
         //new Client account
         if ($client_balance->isEmpty()){
             $client_balance = 0;
@@ -72,12 +80,13 @@ class AccountsController extends Controller
         }
             
         // Type : 1 = paid to || 2 = Recieved From //
-        if($request->input('type') == 1){//I paid to 
-            if($user_balance <= 0){
+
+        if($request->input('type') == 1){ //I paid to 
+            if($bank_balance < $input_amount){
                 return redirect('/account')->with('error', 'Not enough Money In Account !!');
             }
             //client account adjustment
-            $client_debit = $request->input('amount');
+            $client_debit = $input_amount;
             $client_credit = 0;
             $client_balance += $client_debit - $client_credit;
 
@@ -91,7 +100,7 @@ class AccountsController extends Controller
 
             //User account adjustment
             $user_debit = 0;
-            $user_credit = $request->input('amount');
+            $user_credit = $input_amount;
             $user_balance += $user_debit - $user_credit;
 
             $user_account = new account;
@@ -102,13 +111,17 @@ class AccountsController extends Controller
             $user_account->note = $request->input('note');
             $user_account->save();
 
+           //User bank balance adjustment
+           $bank_balance -= $input_amount; 
+           $bank = bank::where('companies_id', $user_company)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
+
             return redirect('/account')->with('success', 'Transaction Added !! ');
 
-        }elseif($request->input('type') == 2){//I recieved payment from
+        }elseif($request->input('type') == 2){ //I recieved payment from
 
             //client account adjustment
             $client_debit = 0;
-            $client_credit = $request->input('amount');
+            $client_credit = $input_amount;
             $client_balance += $client_debit - $client_credit;
 
             $client_account = new account;
@@ -120,7 +133,7 @@ class AccountsController extends Controller
             $client_account->save();
             
             //User account adjustment
-            $user_debit = $request->input('amount');
+            $user_debit = $input_amount;
             $user_credit = 0;
             $user_balance += $user_debit - $user_credit;
 
@@ -131,6 +144,10 @@ class AccountsController extends Controller
             $user_account->balance = $user_balance;
             $user_account->note = $request->input('note');
             $user_account->save();
+
+            //User bank balance adjustment
+           $bank_balance += $input_amount; 
+           $bank = bank::where('companies_id', $user_company)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
 
             return redirect('/account')->with('success', 'Transaction Added !! ');
 

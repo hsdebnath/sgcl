@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\expanse;
 use App\user;
 use App\account;
+use App\bank;
 
 class ExpansesController extends Controller
 {
@@ -34,9 +35,11 @@ class ExpansesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   
+        $my_company =  Auth::user()->company_id;
+        $banks = bank::where('companies_id', $my_company)->pluck('name', 'id');
         $users = user::pluck('name', 'id');
-        return view('pages.expanse.create')->with('users', $users);
+        return view('pages.expanse.create')->with(compact('users', 'banks'));
     }
 
     /**
@@ -50,24 +53,31 @@ class ExpansesController extends Controller
         $this->validate($request, [
             'type' => 'required',
             'amount' => 'required',
-            'note' => 'required'
+            'note' => 'required',
+            'bank' => 'required'
         ]);
+
+        $input_amount = $request->input('amount');
         
         //Company account adjust        
         //get old balance
         $company_id = Auth::user()->company_id;
         $balance = account::where('company_id', $company_id)->orderBy('id','desc')->take('1')->pluck('balance');
+        $bank_balance = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->pluck('balance');
+        
+        $bank_balance = $bank_balance[0];
         //return $company_id." || ".$balance[0];
         //new account
         if ($balance->isEmpty()){
             return redirect('/expanse')->with('error', 'Dont have enough balance !');
         }else{
             $balance = $balance[0];
-            if($balance < $request->input('amount')){return redirect('/expanse')->with('error', 'Dont have enough balance !');}
-        }
+            if($bank_balance < $input_amount){return redirect('/expanse')->with('error', 'Dont have enough balance !');}
+        }        
+
         //return $balance;
         $debit = 0;
-        $credit = $request->input('amount');
+        $credit = $input_amount;
         $balance += $debit - $credit;
 
         $account = new account;
@@ -86,20 +96,24 @@ class ExpansesController extends Controller
             $expanse = new expanse;
             $expanse->user_id = $request->input('employee');
             $expanse->type = $request->input('type');
-            $expanse->amount = $request->input('amount');
+            $expanse->amount = $input_amount;
             $expanse->note = $request->input('note');
             
         }elseif ($request->input('type') == 'legal' || $request->input('type') == 'bank_miscellaneous' || $request->input('type') == 'other'){
 
             $expanse = new expanse;
             $expanse->type = $request->input('type');
-            $expanse->amount = $request->input('amount');
+            $expanse->amount = $input_amount;
             $expanse->note = $request->input('note');
 
         }else{
 
             return redirect('/expanse')->with('error', 'Something wrong with input, please try again !');
         }
+
+        //User bank balance adjustment
+        $bank_balance -= $input_amount; 
+        $bank = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
 
         $account->save();
         $expanse->save();
