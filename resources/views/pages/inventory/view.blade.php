@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Inventory </div>
+                <div class="card-header"><strong> Inventory </strong><a href="/purchase/create" class="btn btn-success btn-sm float-right"><i class="fa fa-plus"></i> Purchase</a></div>
 
                 {{-- <div class="card-body"> --}}
                     @if (count($inventory) > 0)
@@ -33,7 +33,7 @@
                         @endforeach
                     </table>
                     @else
-                        <h3>No Items Found !!</h3>
+                        <br><h3 class="alert alert-danger">&emsp;&emsp;&emsp;No Data Found !!</h3><br>
                     @endif
 
                 </div>

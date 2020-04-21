@@ -19,7 +19,8 @@ class CreateSalesTable extends Migration
             $table->bigInteger('orders_id');
             $table->bigInteger('quantity');
             $table->bigInteger('expanse');
-            $table->float('sales_rate');
+            $table->bigInteger('loss');
+            $table->float('purchase_rate');
         });
     }
 

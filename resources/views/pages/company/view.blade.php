@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Company <a href="/company/create" class="btn btn-success btn-sm float-right">Add New</a></div>
+                <div class="card-header"><strong>Clients</strong> <a href="/company/create" class="btn btn-success btn-sm float-right">Add New</a></div>
 
                 {{-- <div class="card-body"> --}}
-                    @if (count($company) > 0)
+                    @if (count($company) >= 0)
                         
                     <table class="table table-striped">
                         <tr>

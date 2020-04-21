@@ -31,6 +31,12 @@
                             {{Form::text('address', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'address'])}}
                         </div>
 
+                        <div class="form-group">
+                            {{Form::label('balance', 'Opening balance')}}
+                            {{Form::number('balance', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Opening balance'])}}
+                            <small class="text-primary">**Put negetive (-) number if amount is payable</small>
+                        </div>
+
                         {{Form::submit('Submit', ['class'=>'btn btn-primary btn-block'])}}
                     {!! Form::close() !!}
 

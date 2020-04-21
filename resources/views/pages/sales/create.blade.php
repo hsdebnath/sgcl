@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><a href="/dash" role="button">Dashboard / </a> <a href="/sales">Sales</a></div>
+                <div class="card-header"><a href="/orders/create" class="btn btn-success btn-sm float-right"><i class="fa fa-plus"></i> Order</a></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -29,14 +29,20 @@
                         </div>
 
                         <div class="form-group">
-                            {{Form::label('quantity', 'Quantity')}}
-                            {{Form::text('quantity', '', ['class' => 'form-control', 'placeholder' => 'Quantity'])}}
+                            {{Form::label('quantity', 'Accepted Quantity')}}
+                            {{Form::number('quantity', '', ['class' => 'form-control', 'placeholder' => 'Accepted Quantity'])}}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{Form::label('loss', 'Loss Quantity (unit)')}}
+                            {{Form::number('loss', '', ['class' => 'form-control', 'placeholder' => 'Loss Quantity'])}}
+                            <small class="text-primary">**(Scale weight difference)</small>
                         </div>
 
-
                         <div class="form-group">
-                            {{Form::label('expanse', 'Expanse')}}
-                            {{Form::text('expanse', '', ['class' => 'form-control', 'placeholder' => 'Expanse'])}}
+                            {{Form::label('expanse', 'Expanse (tk.)')}}
+                            {{Form::number('expanse', '', ['class' => 'form-control', 'placeholder' => 'Expanse'])}}
+                            <small class="text-primary">**(Transport Cost, Labour charge etc.)</small>
                         </div>
 
                         {{Form::submit('Submit', ['class'=>'btn btn-primary btn-block'])}}

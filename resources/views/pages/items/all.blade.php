@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Items <a href="/items/create" class="btn btn-success btn-sm float-right">Add New</a></div>
+                <div class="card-header">All Items<a href="/items/create" class="btn btn-success btn-sm float-right">Add New</a></div>
 
                 {{-- <div class="card-body"> --}}
                     @if (count($items) > 0)

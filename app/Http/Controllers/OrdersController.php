@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use\App\Order;
+use App\sales;
 use\App\Company;
 use\App\items;
 use DB;
@@ -25,8 +27,10 @@ class OrdersController extends Controller
     
     public function index()
     {
-        $orders = Order::orderBy('id','desc')->paginate('20');
-        return view('pages.orders.view')->with('orders',$orders);
+        $orders = order::where('status','0')->get();
+        $sales = sales::where('created_at','>=',Carbon::now()->subdays(15))->get();
+        //return $sales;
+        return view('pages.orders.view')->with(compact('sales','orders'));
     }
 
     /**
@@ -50,25 +54,52 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'client' => 'required',
-            'item' => 'required',
-            'po' => 'required',
-            'rate' => 'required',
-            'quantity' => 'required'
-        ]);
+        if($request->input('range')){
+        //$last_30_days = User::where('created_at','>=',Carbon::now()->subdays(30))->get(['name','created_at']);
+            $orders = order::where('created_at','>=',Carbon::now()->subdays($request->input('range')))->get();
+            $sales = sales::where('created_at','>=',Carbon::now()->subdays($request->input('range')))->get();  
+            return view('pages.orders.view')->with(compact('sales','orders'));
+        }
+        elseif($request->input('start') && $request->input('end')){
 
-        //add new
-        $order = new order;
-        $order->companies_id = $request->input('client');
-        $order->items_id = $request->input('item');
-        $order->PO = $request->input('po');
-        $order->rate = $request->input('rate');
-        $order->quantity = $request->input('quantity');
-        $order->status = '0';
-        $order->save();
+            $this->validate($request, [
+                'start' => 'required',
+                'end' => 'required'
+            ]);
 
-        return redirect('/orders')->with('success', 'Order added !');
+            //DB::Format=> 2020-04-01 00:00:00
+            $start = $request->input('start')." 00:00:00";
+            $end = $request->input('end')." 23:59:59";
+            //return $start." -- ".$end;
+     
+            //get latest purchase
+            $orders = order::whereBetween('created_at',[$start,$end])->orderBy('created_at','desc')->get();
+            //get latest sales
+            $sales = sales::where('created_at', '>=',$start)->orderBy('created_at','desc')->get();
+
+            return view('pages.orders.view')->with(compact('sales','orders'));
+
+        }else{
+            $this->validate($request, [
+                'client' => 'required',
+                'item' => 'required',
+                'po' => 'required',
+                'rate' => 'required',
+                'quantity' => 'required'
+            ]);
+
+            //add new
+            $order = new order;
+            $order->companies_id = $request->input('client');
+            $order->items_id = $request->input('item');
+            $order->PO = $request->input('po');
+            $order->rate = $request->input('rate');
+            $order->quantity = $request->input('quantity');
+            $order->status = '0';
+            $order->save();
+
+            return redirect('/orders')->with('success', 'Order added !');
+        }    
     }
 
     /**

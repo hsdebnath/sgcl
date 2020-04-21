@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use App\fund;
 use App\account;
 use App\bank;
@@ -24,7 +25,7 @@ class FundsController extends Controller
     
     public function index()
     {
-        $funds = fund::orderBy('id','desc')->paginate('20');
+        $funds = fund::orderBy('created_at','desc')->take(10)->get();
         return view('pages.fund.view')->with('funds', $funds);
     }
 
@@ -48,58 +49,82 @@ class FundsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'by' => 'required',
-            'type' => 'required',
-            'amount' => 'required',
-            'note' => 'required'
-        ]);
+        if($request->input('range')){
+            //$last_30_days = User::where('created_at','>=',Carbon::now()->subdays(30))->get(['name','created_at']);
+            $funds = fund::where('created_at','>=',Carbon::now()->subdays($request->input('range')))->get();
 
-        //Company account adjust        
-        //get old balance
-        $input_amount = $request->input('amount');
-        $company_id = Auth::user()->company_id;
-        $balance = account::where('company_id', $company_id)->orderBy('id','desc')->take('1')->pluck('balance');
-        $bank_balance = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->pluck('balance');
-        
-        $bank_balance = $bank_balance[0];
-        //return $company_id." || ".$balance[0];
-        //new account
-        if ($balance->isEmpty()){
-            $balance = 0;
-        }else{
-            $balance = $balance[0];
+            return view('pages.fund.view')->with('funds', $funds);
         }
-        //return $balance;
-        $debit = $input_amount;
-        $credit = 0;
-        $balance += $debit - $credit;
+        elseif($request->input('start') && $request->input('end')){
+    
+            $this->validate($request, [
+                'start' => 'required',
+                'end' => 'required'
+            ]);
 
-        $account = new account;
-        $account->company_id = $company_id;
-        $account->debit = $debit;
-        $account->credit = $credit;
-        $account->balance = $balance;
-        $account->note = $request->input('note');
-        //$out = "employee_id => ".$request->input('employee').", c_id => ".$company_id.", Debit=> ".$debit.", Credit=> ".$credit.", balance=> ".$balance.", note => ".$account->note;
-        //return $out;
+            //DB::Format=> 2020-04-01 00:00:00
+            $start = $request->input('start')." 00:00:00";
+            $end = $request->input('end')." 23:59:59";
+            //return $start." -- ".$end;
 
-        //Funds log save           
+            $funds = fund::whereBetween('created_at',[$start,$end])->orderBy('created_at','desc')->get();
+            return view('pages.fund.view')->with('funds', $funds);
 
-        $funds = new fund;
-        $funds->by = $request->input('by');
-        $funds->type = $request->input('type');
-        $funds->amount = $input_amount;
-        $funds->note = $request->input('note');
+        }else{
+        
+            $this->validate($request, [
+                'by' => 'required',
+                'type' => 'required',
+                'amount' => 'required',
+                'note' => 'required'
+            ]);
+
+            //Company account adjust        
+            //get old balance
+            $input_amount = $request->input('amount');
+            $company_id = Auth::user()->company_id;
+            $balance = account::where('company_id', $company_id)->orderBy('id','desc')->take('1')->pluck('balance');
+            $bank_balance = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->pluck('balance');
+            
+            $bank_balance = $bank_balance[0];
+            //return $company_id." || ".$balance[0];
+            //new account
+            if ($balance->isEmpty()){
+                $balance = 0;
+            }else{
+                $balance = $balance[0];
+            }
+            //return $balance;
+            $debit = $input_amount;
+            $credit = 0;
+            $balance += $debit - $credit;
+
+            $account = new account;
+            $account->company_id = $company_id;
+            $account->debit = $debit;
+            $account->credit = $credit;
+            $account->balance = $balance;
+            $account->note = $request->input('note');
+            //$out = "employee_id => ".$request->input('employee').", c_id => ".$company_id.", Debit=> ".$debit.", Credit=> ".$credit.", balance=> ".$balance.", note => ".$account->note;
+            //return $out;
+
+            //Funds log save           
+
+            $funds = new fund;
+            $funds->by = $request->input('by');
+            $funds->type = $request->input('type');
+            $funds->amount = $input_amount;
+            $funds->note = $request->input('note');
 
 
-        //User bank balance adjustment
-        $bank_balance += $input_amount; 
-        $bank = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
+            //User bank balance adjustment
+            $bank_balance += $input_amount; 
+            $bank = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
 
-        $account->save();
-        $funds->save();
-        return redirect('/fund')->with('success', 'Fund added !');
+            $account->save();
+            $funds->save();
+            return redirect('/fund')->with('success', 'Fund added !');
+        }
     }
 
     /**

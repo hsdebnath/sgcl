@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><a href="/dash" role="button">Dashboard / </a> <a href="/account">Transaction</a></div>
+                <div class="card-header"><a href="/bank/create" class="btn btn-success btn-sm float-right"><i class="fa fa-plus"></i> BANK</a></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <h1>Transaction Form</h1>
+                    <h1>Transaction</h1>
                     {!! Form::open(['action' => 'AccountsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         
                         {{-- select box code --}}

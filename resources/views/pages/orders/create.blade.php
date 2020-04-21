@@ -5,7 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><a href="/dash" role="button">Dashboard / </a><a href="/orders" role="button">Orders</a></div>
+                <div class="card-header"><div class="float-right"><a href="/items/create" class="btn btn-success btn-sm "><i class="fa fa-plus"></i> Item</a> &nbsp;&nbsp;&nbsp; <a href="/company/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Client</a></div></div>
+                
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +15,7 @@
                         </div>
                     @endif
 
-                    <h1>Create New Order</h1>
+                    <h1>New Order</h1>
                     {!! Form::open(['action' => 'OrdersController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         
                         {{-- select box code --}}

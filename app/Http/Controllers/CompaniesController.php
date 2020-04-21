@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\company;
+use App\account;
 
 class CompaniesController extends Controller
 {
@@ -46,7 +47,8 @@ class CompaniesController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'phone' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'balance' => 'required',
         ]);
 
         //add new
@@ -55,6 +57,17 @@ class CompaniesController extends Controller
         $company->phone = $request->input('phone');
         $company->address = $request->input('address');
         $company->save();
+
+        //add opening balance 
+        $new_company_id = company::select('id')->orderBy('id','desc')->take('1')->get();
+        //return $new_company_id[0]->id;
+        $account = new account;
+        $account->company_id = $new_company_id[0]->id;
+        $account->debit = '0';
+        $account->credit = '0';
+        $account->balance = $request->input('balance');
+        $account->note = "Opening balance of ".$company->name;
+        $account->save();
 
         return redirect('/company')->with('success', 'Company added !');
     }

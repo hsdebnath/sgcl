@@ -3,8 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\user;
+use App\company;
+use App\bank;
 use App\account;
+use App\Order;
+use App\sales;
+use App\purchase;
+use App\expanse;
+use App\fund;
 use DB;
 
 class PagesController extends Controller
@@ -30,7 +38,20 @@ class PagesController extends Controller
     }
 
     public function dash()
-    {
+    {   
+        //Get recent funds
+        $funds = fund::orderBy('id','desc')->take(5)->get();
+        //get recent expanse
+        $expanses = expanse::orderBy('id','desc')->take(5)->get();
+        //get latest purchase
+        $purchase = purchase::orderBy('id','desc')->take(5)->get();
+        //get latest sales
+        $sales = sales::orderBy('id','desc')->take(5)->get();
+        //get bank balance
+        $company = Auth::user()->company_id;
+        $banks = bank::where('companies_id', $company)->get();
+        //get active orders
+        $orders = Order::orderBy('id','Desc')->take('2')->get();
         // get last balance of all companies
         $data = DB::select('select t.company_id,(select name from companies where id = t.company_id) name, t.balance
         from accounts t
@@ -38,14 +59,9 @@ class PagesController extends Controller
             select company_id, max(updated_at) as MaxDate
             from accounts
             group by company_id
-        ) tm on t.company_id = tm.company_id and t.updated_at = tm.MaxDate');
+        ) tm on t.company_id = tm.company_id and t.updated_at = tm.MaxDate where t.company_id != '.$company);
 
-        return view('pages.dash')->with('data',$data);
-    }
-
-    public function report()
-    {
-        return view('pages.home');
+        return view('pages.dash')->with(compact('data','orders','banks', 'sales', 'purchase', 'expanses', 'funds'));
     }
 
     public function users()

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Banks <a href="/bank/create" class="btn btn-success btn-sm float-right">Add New</a></div>
+                <div class="card-header"><strong>Banks</strong> <a href="/bank/create" class="btn btn-success btn-sm float-right">Add New</a></div>
 
                 {{-- <div class="card-body"> --}}
                     @if (count($banks) > 0)
@@ -17,17 +17,17 @@
                             <th>Balance</th>
                         </tr>
                         @foreach ($banks as $bank)
-                            <tr data-toggle="collapse" data-target="#col{{$bank->id}}">    
+                            <tr data-toggle="collapse" data-target="#bank-{{$bank->id}}">    
                             <td>{{$bank->name}}</td>
                             <td>{{$bank->branch}}</td>
-                            <td>~{{$bank->balance}}</td>
+                            <td>{{$bank->balance}} ~</td>
                             </tr>
-                            <tr id="col{{$bank->id}}" class="collapse out">
+                            <tr id="bank-{{$bank->id}}" class="collapse out">
                                 <td colspan="4">
                                     <p>{{$bank->name}}<br>
                                         {{$bank->branch}} branch<br>
-                                        {{$bank->ac_number}}<br>
-                                        Balance : ~{{$bank->balance}}<br>
+                                        A/C {{$bank->ac_number}}<br>
+                                        Balance : {{$bank->balance}} ~<br>
                                     </p>
                                 </td>
                             </tr>

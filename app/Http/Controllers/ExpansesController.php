@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use App\expanse;
 use App\user;
 use App\account;
@@ -25,7 +26,7 @@ class ExpansesController extends Controller
     
     public function index()
     {
-        $expanses = expanse::orderBy('id','desc')->paginate('20');
+        $expanses = expanse::all();
         return view('pages.expanse.view')->with('expanses', $expanses);
     }
 
@@ -50,74 +51,99 @@ class ExpansesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'type' => 'required',
-            'amount' => 'required',
-            'note' => 'required',
-            'bank' => 'required'
-        ]);
-
-        $input_amount = $request->input('amount');
-        
-        //Company account adjust        
-        //get old balance
-        $company_id = Auth::user()->company_id;
-        $balance = account::where('company_id', $company_id)->orderBy('id','desc')->take('1')->pluck('balance');
-        $bank_balance = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->pluck('balance');
-        
-        $bank_balance = $bank_balance[0];
-        //return $company_id." || ".$balance[0];
-        //new account
-        if ($balance->isEmpty()){
-            return redirect('/expanse')->with('error', 'Dont have enough balance !');
-        }else{
-            $balance = $balance[0];
-            if($bank_balance < $input_amount){return redirect('/expanse')->with('error', 'Dont have enough balance !');}
-        }        
-
-        //return $balance;
-        $debit = 0;
-        $credit = $input_amount;
-        $balance += $debit - $credit;
-
-        $account = new account;
-        $account->company_id = $company_id;
-        $account->debit = $debit;
-        $account->credit = $credit;
-        $account->balance = $balance;
-        $account->note = $request->input('note');
-        //$out = "employee_id => ".$request->input('employee').", c_id => ".$company_id.", Debit=> ".$debit.", Credit=> ".$credit.", balance=> ".$balance.", note => ".$account->note;
-        //return $out;
-
-        //Expanse log save           
-        //type => [salary, legal, bank_miscellaneous, other
-        if ($request->input('type') == 'salary') {
-
-            $expanse = new expanse;
-            $expanse->user_id = $request->input('employee');
-            $expanse->type = $request->input('type');
-            $expanse->amount = $input_amount;
-            $expanse->note = $request->input('note');
+        if($request->input('range')){
+            //$last_30_days = User::where('created_at','>=',Carbon::now()->subdays(30))->get(['name','created_at']);
             
-        }elseif ($request->input('type') == 'legal' || $request->input('type') == 'bank_miscellaneous' || $request->input('type') == 'other'){
+            $expanses = expanse::where('created_at','>=',Carbon::now()->subdays($request->input('range')))->get();
 
-            $expanse = new expanse;
-            $expanse->type = $request->input('type');
-            $expanse->amount = $input_amount;
-            $expanse->note = $request->input('note');
+            return view('pages.expanse.view')->with('expanses', $expanses);
+        }
+        elseif($request->input('start') && $request->input('end')){
+    
+            $this->validate($request, [
+                'start' => 'required',
+                'end' => 'required'
+            ]);
+
+            //DB::Format=> 2020-04-01 00:00:00
+            $start = $request->input('start')." 00:00:00";
+            $end = $request->input('end')." 23:59:59";
+            //return $start." -- ".$end;
+
+            $expanses = expanse::whereBetween('created_at',[$start,$end])->orderBy('created_at','desc')->get();
+            return view('pages.expanse.view')->with('expanses', $expanses);
 
         }else{
 
-            return redirect('/expanse')->with('error', 'Something wrong with input, please try again !');
+            $this->validate($request, [
+                'type' => 'required',
+                'amount' => 'required',
+                'note' => 'required',
+                'bank' => 'required'
+            ]);
+
+            $input_amount = $request->input('amount');
+            
+            //Company account adjust        
+            //get old balance
+            $company_id = Auth::user()->company_id;
+            $balance = account::where('company_id', $company_id)->orderBy('id','desc')->take('1')->pluck('balance');
+            $bank_balance = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->pluck('balance');
+            
+            $bank_balance = $bank_balance[0];
+            //return $company_id." || ".$balance[0];
+            //new account
+            if ($balance->isEmpty()){
+                return redirect('/expanse')->with('error', 'Dont have enough balance !');
+            }else{
+                $balance = $balance[0];
+                if($bank_balance < $input_amount){return redirect('/expanse')->with('error', 'Dont have enough balance !');}
+            }        
+
+            //return $balance;
+            $debit = 0;
+            $credit = $input_amount;
+            $balance += $debit - $credit;
+
+            $account = new account;
+            $account->company_id = $company_id;
+            $account->debit = $debit;
+            $account->credit = $credit;
+            $account->balance = $balance;
+            $account->note = $request->input('note');
+            //$out = "employee_id => ".$request->input('employee').", c_id => ".$company_id.", Debit=> ".$debit.", Credit=> ".$credit.", balance=> ".$balance.", note => ".$account->note;
+            //return $out;
+
+            //Expanse log save           
+            //type => [salary, legal, bank_miscellaneous, other
+            if ($request->input('type') == 'salary') {
+
+                $expanse = new expanse;
+                $expanse->user_id = $request->input('employee');
+                $expanse->type = $request->input('type');
+                $expanse->amount = $input_amount;
+                $expanse->note = $request->input('note');
+                
+            }elseif ($request->input('type') == 'legal' || $request->input('type') == 'bank_miscellaneous' || $request->input('type') == 'other'){
+
+                $expanse = new expanse;
+                $expanse->type = $request->input('type');
+                $expanse->amount = $input_amount;
+                $expanse->note = $request->input('note');
+
+            }else{
+
+                return redirect('/expanse')->with('error', 'Something wrong with input, please try again !');
+            }
+
+            //User bank balance adjustment
+            $bank_balance -= $input_amount; 
+            $bank = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
+
+            $account->save();
+            $expanse->save();
+            return redirect('/expanse')->with('success', 'Expance added !');
         }
-
-        //User bank balance adjustment
-        $bank_balance -= $input_amount; 
-        $bank = bank::where('companies_id', $company_id)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
-
-        $account->save();
-        $expanse->save();
-        return redirect('/expanse')->with('success', 'Expance added !');
     }
 
     /**

@@ -49,7 +49,7 @@ class BanksController extends Controller
         $user_company = Auth::user()->company_id;
         
         //get old balance
-        $user_balance = account::where('company_id', $user_company)->pluck('balance');
+        $user_balance = account::where('company_id', $user_company)->orderBy('id','desc')->take('1')->pluck('balance');
         //for new User account
         if ($user_balance->isEmpty()){
             $user_balance = 0;

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><a href="/dash" role="button">Dashboard / </a>Users</div>
+                <div class="card-header"><strong>Users</strong></div>
 
                 {{-- <div class="card-body"> --}}
                     @if (count($users) > 0)

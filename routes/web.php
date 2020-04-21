@@ -22,8 +22,6 @@ Route::get('/home', 'PagesController@index');
 
 Route::get('/dash', 'PagesController@dash');
 
-Route::get('/report', 'PagesController@report');
-
 Route::get('/users', 'PagesController@users');
 
 Route::resource('items', 'ItemsController');
@@ -45,3 +43,5 @@ Route::resource('expanse', 'ExpansesController');
 Route::resource('fund', 'FundsController');
 
 Route::resource('bank', 'BanksController');
+
+Route::resource('report', 'reportsController');
