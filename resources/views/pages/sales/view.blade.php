@@ -89,7 +89,7 @@
                             </tr>
                             <tr id="col{{$sale->id}}" class="collapse out">
                                 <td colspan="4">
-                                    <p> {{$sale->orders->company->name}} [{{$sale->orders->PO}}]<br>
+                                    <p> {{$sale->orders->company->name}} [ {{$sale->created_at->format('j M, y')}} ]<br>
                                         {{$sale->orders->items->name}}<br>
                                         {{$sale->quantity}} {{$sale->orders->items->unit}} @ {{$sale->orders->rate}}Tk<br>
                                         Expanse -{{$sale->expanse}} || loss Expanse -{{$sale->loss}} {{$sale->orders->items->unit}}<br>
@@ -104,7 +104,7 @@
                             <th>@php echo $total; @endphp</th>
                         </tr>
                     </table>
-                    <div>{{$sales->links()}}</div>
+                    {{-- <div>{{$sales->links()}}</div> --}}
                     @else
                         <h3>No Items Found !!</h3>
                     @endif

@@ -62,7 +62,7 @@
                     {{-- <a class="navbar-brand" href="{{ url('/home') }}">
                         <span class="fa  fa-home text-primary"></span>    
                     </a> --}}
-                    <h4>{{ Auth::user()->name }}</h4>
+                    <h4 class="text-success">{{ Auth::user()->name }}</h4>
 
                 {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -84,13 +84,13 @@
                     <a href="/report" class="list-group-item list-group-item-action bg-light border-0"><h5><i class="fa  fa-bar-chart">&nbsp;&nbsp;&nbsp;Reports</i></h5></a>
                     <a href="/inventory" class="list-group-item list-group-item-action bg-light"><h5><i class="fa  fa-cube">&nbsp;&nbsp;&nbsp;Inventory</i></h5></a>
                     <a href="/orders/" class="list-group-item list-group-item-action bg-light border-0"><h5><i class="fa  fa-shopping-basket">&nbsp;&nbsp;&nbsp;Orders</i></h5></a>
-                    <a href="/items" class="list-group-item list-group-item-action bg-light "><h5><i class="fa  fa-tags">&nbsp;&nbsp;&nbsp;Items</i></h5></a>
                     <a href="/purchase" class="list-group-item list-group-item-action bg-light"><h5><i class="fa  fa-ship">&nbsp;&nbsp;&nbsp;Purchase</i></h5></a>
                     <a href="/sales/" class="list-group-item list-group-item-action bg-light border-0"><h5><i class="fa  fa-truck">&nbsp;&nbsp;&nbsp;Sales</i></h5></a>
-                    <a href="/account/" class="list-group-item list-group-item-action bg-light"><h5><i class="fa  fa-money">&nbsp;&nbsp;&nbsp;Transactions</i></h5></a>
+                    <a href="/account" class="list-group-item list-group-item-action bg-light"><h5><i class="fa  fa-money">&nbsp;&nbsp;&nbsp;Transactions</i></h5></a>
                     <a href="/expanse/" class="list-group-item list-group-item-action bg-light border-0"><h5><i class="fa  fa-credit-card">&nbsp;&nbsp;&nbsp;Expanses</i></h5></a>
                     <a href="/fund/" class="list-group-item list-group-item-action bg-light border-0"><h5><i class="fa  fa-shield">&nbsp;&nbsp;&nbsp;Funds</i></h5></a>
                     <a href="/bank" class="list-group-item list-group-item-action bg-light border-0"><h5><i class="fa  fa-bank">&nbsp;&nbsp;&nbsp;Banks</i></h5></a>
+                    <a href="/items" class="list-group-item list-group-item-action bg-light "><h5><i class="fa  fa-tags">&nbsp;&nbsp;&nbsp;Items</i></h5></a>
                     <a href="/users" class="list-group-item list-group-item-action bg-light"><h5><i class="fa  fa-users">&nbsp;&nbsp;&nbsp;Users</i></h5></a>
                     <a href="/company" class="list-group-item list-group-item-action bg-light border-0"><h5><i class="fa  fa-industry">&nbsp;&nbsp;&nbsp;Clients</i></h5></a>
                     <h4 class="list-group-item list-group-item-action bg-light" href="{{ route('logout') }}"

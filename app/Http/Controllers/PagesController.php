@@ -13,6 +13,7 @@ use App\sales;
 use App\purchase;
 use App\expanse;
 use App\fund;
+use App\inventory;
 use DB;
 
 class PagesController extends Controller
@@ -38,7 +39,9 @@ class PagesController extends Controller
     }
 
     public function dash()
-    {   
+    {   //get inventory valuation
+        $inventory = DB::SELECT('SELECT sum(quantity*rate) as value FROM inventories WHERE 1');
+        $inventory =  $inventory[0]->value;
         //Get recent funds
         $funds = fund::orderBy('id','desc')->take(5)->get();
         //get recent expanse
@@ -56,12 +59,12 @@ class PagesController extends Controller
         $data = DB::select('select t.company_id,(select name from companies where id = t.company_id) name, t.balance
         from accounts t
         inner join (
-            select company_id, max(updated_at) as MaxDate
+            select company_id, max(created_at) as MaxDate
             from accounts
             group by company_id
-        ) tm on t.company_id = tm.company_id and t.updated_at = tm.MaxDate where t.company_id != '.$company);
+        ) tm on t.company_id = tm.company_id and t.created_at = tm.MaxDate where t.company_id != '.$company);
 
-        return view('pages.dash')->with(compact('data','orders','banks', 'sales', 'purchase', 'expanses', 'funds'));
+        return view('pages.dash')->with(compact('data','orders','banks', 'sales', 'purchase', 'expanses', 'funds', 'inventory'));
     }
 
     public function users()

@@ -84,7 +84,7 @@
                             </tr>
                             <tr id="col{{$fund->id}}" class="collapse out">
                                 <td colspan="3">
-                                    <p>[{{$fund->created_at}}]<br>
+                                    <p>[{{$fund->created_at->format('j M, y')}}]<br>
                                         {{$fund->amount}} Tk. {{$fund->type}} <br>
                                         By {{$fund->by}} <br>
                                         [{{$fund->note}}]

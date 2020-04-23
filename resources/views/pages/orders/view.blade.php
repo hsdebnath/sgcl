@@ -93,7 +93,9 @@
                             <tr id="col{{$order->id}}" class="collapse out">
                                 <td colspan="4">
                                     <strong><p>PO - {{$order->PO}}.&emsp;&emsp;
-                                        {{$order->quantity}}{{$order->items->unit}} @ {{$order->rate}} Tk. &emsp;&emsp;
+                                        @if ($order->quantity < 1000) {{$order->quantity}}{{$order->items->unit}}
+                                        @else {{$order->quantity / 1000}} MT @endif
+                                        @ {{$order->rate}} Tk. &emsp;&emsp;
                                         @if ($order->status == 0)
                                         <a href="/orders/{{$order->id}}/edit" class="btn btn-info btn-sm  float-right" data-toggle="modal" data-target=".mod-{{$order->id}}">Update Status</a>   
                                         @endif

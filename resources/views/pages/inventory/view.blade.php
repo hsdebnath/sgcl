@@ -19,7 +19,11 @@
                         @foreach ($inventory as $inv)
                             <tr data-toggle="collapse" data-target="#col{{$inv->id}}">   
                             <td>{{$inv->items->name}}</td>
-                            <td>{{$inv->quantity}} {{$inv->items->unit}}</td>
+                            @if ($inv->quantity < 1000)
+                                <td>{{$inv->quantity}} {{$inv->items->unit}}</td>
+                            @else
+                                <td>{{$inv->quantity / 1000}} MT</td>
+                            @endif
                             <td>{{$inv->rate}}</td>
                             </tr>
                             <tr id="col{{$inv->id}}" class="collapse out">

@@ -28,7 +28,8 @@ class OrdersController extends Controller
     public function index()
     {
         $orders = order::where('status','0')->get();
-        $sales = sales::where('created_at','>=',Carbon::now()->subdays(15))->get();
+        $sales = sales::all();
+        //$sales = sales::where('created_at','>=',Carbon::now()->subdays(15))->get();
         //return $sales;
         return view('pages.orders.view')->with(compact('sales','orders'));
     }

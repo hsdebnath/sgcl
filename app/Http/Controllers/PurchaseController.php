@@ -26,7 +26,7 @@ class PurchaseController extends Controller
     
     public function index()
     {
-        $purchase = purchase::orderBy('created_at', 'desc')->paginate('20');
+        $purchase = purchase::where('created_at','>=',Carbon::now()->subdays(15))->get();
         return view('pages.purchase.view')->with('purchase',$purchase);
     }
 
@@ -52,7 +52,7 @@ class PurchaseController extends Controller
     {
         if($request->input('range')){
             //$last_30_days = User::where('created_at','>=',Carbon::now()->subdays(30))->get(['name','created_at']);
-            $purchase = purchase::where('created_at','>=',Carbon::now()->subdays($request->input('range')))->paginate('20');
+            $purchase = purchase::where('created_at','>=',Carbon::now()->subdays($request->input('range')))->get();
             return view('pages.purchase.view')->with(compact('purchase'));
         }
         elseif($request->input('start') && $request->input('end')){
@@ -68,7 +68,7 @@ class PurchaseController extends Controller
             //return $start." -- ".$end;
 
             //get latest purchase
-            $purchase = purchase::whereBetween('created_at',[$start,$end])->orderBy('created_at','desc')->paginate('20');
+            $purchase = purchase::whereBetween('created_at',[$start,$end])->orderBy('created_at','desc')->get();
             return view('pages.purchase.view')->with(compact('purchase'));
 
         }else{    
@@ -154,7 +154,7 @@ class PurchaseController extends Controller
         $purchase->save();
         $account->save();
 
-        return redirect('/purchase')->with('success', 'Item purchased !');
+        return redirect('/inventory')->with('success', 'Item purchased !');
     }
 
     /**

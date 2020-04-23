@@ -15,6 +15,7 @@
                     
                     {{-- Bank table --}}
                     @if (count($banks) > 0)
+                    @php $bank_total = 0; @endphp 
                     <legend class="alert-success">&nbsp;&nbsp;&nbsp;Bank Accounts</legend>
                     <table class="table table-striped">
                         <tr>
@@ -27,6 +28,7 @@
                             <td>{{$bank->name}}</td>
                             <td>{{$bank->branch}}</td>
                             <td>{{$bank->balance}} ~</td>
+                            @php $bank_total += $bank->balance; @endphp 
                             </tr>
                             <tr id="banks{{$bank->id}}" class="collapse out">
                                 <td colspan="4">
@@ -38,6 +40,11 @@
                                 </td>
                             </tr>
                         @endforeach
+                        <tr>
+                            <th></th>
+                            <th>total</th>
+                            <th>@php echo $bank_total; @endphp ~</th>
+                        </tr>
                     </table>
                     @endif    
                     {{-- Bank table end--}}
@@ -45,7 +52,7 @@
                     <hr/>
 
                     {{-- Payable/ Recieveable table --}}
-                    <legend class="alert-warning">&nbsp;&nbsp;&nbsp;Balance</legend>
+                    <legend class="alert-warning">&nbsp;&nbsp;&nbsp;Dues</legend>
                     <table class="table table-striped table-bordered">
                         <colgroup>
                             <col></col>
@@ -82,9 +89,38 @@
 
                     <hr/>
 
+                    {{-- Balance table --}}
+                    <legend class="bg-primary">&nbsp;&nbsp;&nbsp;Balance</legend>
+                    <table class="table table-bordered">
+                        <tr class="alert-success">
+                            <th>Total Cash In Hand →</th>
+                            <th>@php echo $bank_total; @endphp </th>
+                        </tr>
+                        <tr class="alert-success">
+                            <th>Total Inventory Valuation →</th>
+                            <th>@php echo $inventory; @endphp </th>
+                        </tr>
+                        <tr class="alert-danger">
+                            <th>Total Payable →</th>
+                            <th>@php echo $pay; @endphp </th>
+                        </tr>
+                        <tr class="alert-success">
+                            <th>Total Recieveable →</th>
+                            <th>@php echo $rcv; @endphp </th>
+                        </tr>    
+                        <tfoot class="bg-info">
+                            @php $total = ($bank_total+$inventory+$rcv)-$pay ; @endphp
+                            <th>Balance</th>
+                            <th>@php echo $total; @endphp </th>
+                        </tfoot>    
+                    </table>
+                    {{-- Balance table end--}}
+
+                    <hr/>
+
                     {{-- Current orders table --}}
                     @if (count($orders) > 0)
-                    <legend class="alert-primary">&nbsp;&nbsp;&nbsp;Recent Orders <a href="/orders" class="btn btn-primary float-right"><i class="fa fa-eye">&nbsp;More</i></a></legend>
+                    <legend class="alert-primary">&nbsp;&nbsp;&nbsp;Recent Orders <a href="/orders" class="btn btn-primary btn-lg float-right">&nbsp;More</a>&emsp;</legend>
                     <table class="table table-striped">
                         <tr>
                             <th>From</th>
@@ -131,7 +167,7 @@
 
                     {{-- Recent Purchase table --}}
                     @if (count($purchase) > 0)
-                    <legend class="alert-warning">&nbsp;&nbsp;&nbsp;Recent Purchase <a href="/purchase" class="btn btn-warning float-right"><i class="fa fa-eye">&nbsp;More</i></a></legend>
+                    <legend class="alert-warning">&nbsp;&nbsp;&nbsp;Recent Purchase <a href="/purchase" class="btn btn-warning btn-lg float-right">&nbsp;More</a>&emsp;</legend>
                         
                     <table class="table table-striped">
                         <tr>
@@ -155,8 +191,6 @@
                             </tr>
                         @endforeach
                     </table>
-                    @else
-                        <h3>No Items Found !!</h3>
                     @endif
                     {{-- Recent Purchase table end--}}
 
@@ -164,7 +198,7 @@
 
                     {{-- Recent expanses table --}}
                     @if (count($expanses) > 0)
-                    <legend class="alert-danger">&nbsp;&nbsp;&nbsp;Recent Expances <a href="/expanse" class="btn btn-danger float-right"><i class="fa fa-eye">&nbsp;More</i></a></legend>
+                    <legend class="alert-danger">&nbsp;&nbsp;&nbsp;Recent Expances <a href="/expanse" class="btn btn-danger btn-lg float-right">&nbsp;More</a>&emsp;</legend>
                         <table class="table table-striped">
                             <tr>
                                 <th>Date</th>
@@ -195,7 +229,7 @@
                     <hr>
                     {{-- Recent funds table --}}
                     @if (count($funds) > 0)
-                    <legend class="alert-success">&nbsp;&nbsp;&nbsp;Recent Funds <a href="/fund" class="btn btn-success float-right"><i class="fa fa-eye">&nbsp;More</i></a></legend>
+                    <legend class="alert-success">&nbsp;&nbsp;&nbsp;Recent Funds <a href="/fund" class="btn btn-success btn-lg float-right">&nbsp;More</a>&emsp;</legend>
                     <table class="table table-striped">
                         <tr>
                             <th>Fund By</th>

@@ -92,7 +92,7 @@
                             </tr>
                         @endforeach
                     </table>
-                    <div>{{$purchase->links()}}</div>
+                    {{-- <div>{{$purchase->links()}}</div> --}}
                     @else
                         <h3>No Items Found !!</h3>
                     @endif

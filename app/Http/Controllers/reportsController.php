@@ -17,10 +17,10 @@ class reportsController extends Controller
     public function index()
     {
         //get latest purchase
-        $expanse = expanse::where('created_at','>=',Carbon::today()->subdays(7))->orderBy('created_at','desc')->get();
+        $expanse = expanse::where('created_at','>=',Carbon::today()->subdays(15))->orderBy('created_at','desc')->get();
         //get latest sales
-        $sales = sales::where('created_at','>=',Carbon::today()->subdays(7))->orderBy('created_at','desc')->get();
-        $msg = "Last 7 days NET : ";
+        $sales = sales::where('created_at','>=',Carbon::today()->subdays(15))->orderBy('created_at','desc')->get();
+        $msg = "Last 15 days NET : ";
         return view('pages.report')->with(compact('expanse', 'sales', 'msg'));
     }
 

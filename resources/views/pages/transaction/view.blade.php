@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
+                <div class="card-header"><strong>Transactions</strong> <a href="/account/create" class="btn btn-success btn-sm float-right">Add New</a></div>
 
                 <div class="container">
                     <div class="row justify-content-center">
@@ -106,7 +107,7 @@
                                 <th>Total →</th>
                                 <th> @php echo $debit; @endphp</th>
                                 <th> @php echo $credit; @endphp</th>
-                                <th> @php echo $balance; @endphp</th>
+                                <th> </th>
                             </tfoot>
                         </table>
 
@@ -115,7 +116,7 @@
                     <div class="card-body">    
                                            
                      @foreach ($company as $comp)
-                     
+                     @php $debit = $credit = $balance = 0; @endphp 
                    <div id="row{{$comp->id}}">   
                     <legend>Accounts of {{$comp->name}}</legend>
                     <table class="table table-striped" id="{{$comp->id}}">
@@ -147,7 +148,7 @@
                             <th></th>
                             <th> @php echo $debit; @endphp</th>
                             <th> @php echo $credit; @endphp</th>
-                            <th> @php echo $balance; @endphp</th>
+                            <th></th>
                             <th></th>
                         </tfoot>
                     </tbody>

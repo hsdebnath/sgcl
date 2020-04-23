@@ -26,7 +26,8 @@ class SalesController extends Controller
     
     public function index()
     {
-        $sales = sales::orderBy('created_at', 'desc')->paginate('20');
+        $sales = sales::where('created_at','>=',Carbon::now()->subdays(15))->get();
+        
         return view('pages.sales.view')->with(compact('sales'));
     }
 
@@ -51,7 +52,7 @@ class SalesController extends Controller
     {
         if($request->input('range')){
             //$last_30_days = User::where('created_at','>=',Carbon::now()->subdays(30))->get(['name','created_at']);
-            $sales = sales::where('created_at','>=',Carbon::now()->subdays($request->input('range')))->paginate('20');
+            $sales = sales::where('created_at','>=',Carbon::now()->subdays($request->input('range')))->get();
             return view('pages.sales.view')->with(compact('sales'));
         }
         elseif($request->input('start') && $request->input('end')){
@@ -67,7 +68,7 @@ class SalesController extends Controller
             //return $start." -- ".$end;
 
             //get latest purchase
-            $sales = sales::whereBetween('created_at',[$start,$end])->orderBy('created_at','desc')->paginate('20');
+            $sales = sales::whereBetween('created_at',[$start,$end])->orderBy('created_at','desc')->get();
             return view('pages.sales.view')->with(compact('sales'));
 
         }else{

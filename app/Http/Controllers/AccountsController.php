@@ -26,7 +26,7 @@ class AccountsController extends Controller
     {   
         $users = user::all();
         $company = company::all();
-        $accounts = account::where('created_at','>=',Carbon::today()->subdays(7))->orderBy('created_at','desc')->get();
+        $accounts = account::where('created_at','>=',Carbon::today()->subdays(15))->get();
         return view('pages.transaction.view')->with(compact('accounts','users','company'));
     }
 

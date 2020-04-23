@@ -26,7 +26,7 @@ class ExpansesController extends Controller
     
     public function index()
     {
-        $expanses = expanse::all();
+        $expanses = expanse::where('created_at','>=',Carbon::now()->subdays(15))->get();
         return view('pages.expanse.view')->with('expanses', $expanses);
     }
 

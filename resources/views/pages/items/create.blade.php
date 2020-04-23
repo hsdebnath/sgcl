@@ -23,7 +23,8 @@
 
                         {{-- select box code --}}
                         <div class="form-group">
-                            <select name="vendor" class="form-control">
+                            {{Form::label('vendor', 'Vendor Name')}}
+                            <select name="vendor" class="form-control" required>
                                 <option value="">--Select Vendor--</option>
                                 @foreach ($users as $id => $name)
                                 <option value="{{ $id }}"> {{ $name }}</option>   
@@ -33,7 +34,9 @@
 
                         <div class="form-group">
                             {{Form::label('unit', 'Unit')}}
-                            {{Form::text('unit', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Unit Text'])}}
+                            <select name="unit" class="form-control" required>
+                                <option value="Kgs">Kgs</option> 
+                            </select>
                         </div>
 
                         {{Form::submit('Submit', ['class'=>'btn btn-primary btn-block'])}}
