@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use\App\Order;
-use App\sales;
+use App\Sales;
 use\App\Company;
-use\App\items;
+use\App\Items;
 use DB;
 
 class OrdersController extends Controller

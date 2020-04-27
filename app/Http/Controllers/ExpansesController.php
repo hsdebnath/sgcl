@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\expanse;
-use App\user;
-use App\account;
-use App\bank;
+use App\Expanse;
+use App\User;
+use App\Account;
+use App\Bank;
 
 class ExpansesController extends Controller
 {

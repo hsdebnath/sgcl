@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\fund;
-use App\account;
-use App\bank;
+use App\Fund;
+use App\Account;
+use App\Bank;
 
 class FundsController extends Controller
 {

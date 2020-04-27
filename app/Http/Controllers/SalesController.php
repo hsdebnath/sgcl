@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\sales;
-use App\order;
-use App\account;
-use App\inventory;
+use App\Sales;
+use App\Order;
+use App\Account;
+use App\Inventory;
 
 
 class SalesController extends Controller

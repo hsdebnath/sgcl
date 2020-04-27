@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\expanse;
-use App\sales;
+use App\Expanse;
+use App\Sales;
 use Carbon\Carbon;
 
 class reportsController extends Controller

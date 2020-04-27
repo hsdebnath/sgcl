@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\company;
-use App\account;
+use App\Company;
+use App\Account;
 
 class CompaniesController extends Controller
 {

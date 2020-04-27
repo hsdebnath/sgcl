@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\purchase;
-use App\company;
-Use App\account;
-use App\inventory;
+use App\Purchase;
+use App\Company;
+Use App\Account;
+use App\Inventory;
 
 class PurchaseController extends Controller
 {

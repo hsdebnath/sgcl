@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\user;
-use App\company;
-use App\bank;
-use App\account;
+use App\User;
+use App\Company;
+use App\Bank;
+use App\Account;
 use App\Order;
-use App\sales;
-use App\purchase;
-use App\expanse;
-use App\fund;
-use App\inventory;
+use App\Sales;
+use App\Purchase;
+use App\Expanse;
+use App\Fund;
+use App\Inventory;
 use DB;
 
 class PagesController extends Controller
