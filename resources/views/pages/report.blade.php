@@ -85,9 +85,9 @@
                             <tr data-toggle="collapse" data-target="#profit{{$sale->id}}">
                                 <td>{{$sale->orders->company->name}}</td>
                                 <td>{{$sale->orders->items->name}}</td>
-                                <td>{{$sale->orders->rate}}</td> 
+                                <td>@money($sale->orders->rate)</td> 
                                 @php $profit = (($sale->orders->rate * $sale->quantity) - $sale->expanse) - ($sale->purchase_rate * ($sale->quantity + $sale->loss)); @endphp
-                                <td>@php echo $profit; @endphp</td> 
+                                <td>@money($profit)</td> 
                                 @php $total_sale += $profit; @endphp
                             </tr>
                             <tr id="profit{{$sale->id}}" class="collapse out">
@@ -95,14 +95,14 @@
                                     <p> {{$sale->orders->company->name}} [{{$sale->orders->PO}}]<br>
                                         {{$sale->orders->items->name}}<br>
                                         {{$sale->quantity}} {{$sale->orders->items->unit}} @ {{$sale->orders->rate}}Tk<br>
-                                        Expanse - {{$sale->expanse}} || loss - {{$sale->loss}} {{$sale->orders->items->unit}}<br>
+                                        Expanse - @money($sale->expanse) || loss - {{$sale->loss}} {{$sale->orders->items->unit}}<br>
                                     </p>
                                 </td>
                             </tr>
                         @endforeach
                         <tr>
                             <th></th>
-                            <th colspan="3">Total Profit → @php echo $total_sale; @endphp Tk.</th>
+                            <th colspan="3">Total Profit → @money($total_sale)</th>
                         </tr>
                     </table>
                     @else
@@ -124,7 +124,7 @@
                                 <tr data-toggle="collapse" data-target="#expanse-{{$expanse->id}}">  
                                     <td>{{$expanse->created_at->format('j M, y')}}</td>
                                     <td>{{$expanse->type}} <br> @if ($expanse->user_id)[ {{$expanse->user->name}} ]@endif </td>
-                                    <td>{{$expanse->amount}}</td>
+                                    <td>@money($expanse->amount)</td>
                                      @php $total_expanse += $expanse->amount; @endphp
                                 </tr>
                                 <tr id="expanse-{{$expanse->id}}" class="collapse out">
@@ -133,14 +133,14 @@
                             @endforeach
                             <tr>
                                 <th></th>
-                                <th colspan="2">Total Expanse → @php echo $total_expanse; @endphp Tk.</th>
+                                <th colspan="2">Total Expanse → @money($total_expanse)</th>
                             </tr>
                         </table>
                     @else
                             <h3>&emsp;&emsp; No Data Found !!</h3>
                     @endif
                 </div>
-            <div><h5 class="alert alert-danger"> &emsp;&emsp; {{$msg}}@php echo $total_sale - $total_expanse ; @endphp Tk.</h5></div>
+            <div><h5 class="alert alert-danger"> &emsp;&emsp; {{$msg}} @money( $total_sale - $total_expanse )</h5></div>
             </div>
             <br><br>
         </div>

@@ -24,13 +24,13 @@
                             @else
                                 <td>{{$inv->quantity / 1000}} MT</td>
                             @endif
-                            <td>{{$inv->rate}}</td>
+                            <td>@money($inv->rate)</td>
                             </tr>
                             <tr id="col{{$inv->id}}" class="collapse out">
                                 <td colspan="4">
                                     <p>{{$inv->items->name}} [ {{$inv->items->company->name}}]<br>
                                         Stock : {{$inv->quantity}} {{$inv->items->unit}}<br>
-                                        Purchase Rate : {{$inv->rate}}<br>
+                                        Purchase Rate : @money($inv->rate)<br>
                                     </p>
                                 </td>
                             </tr>

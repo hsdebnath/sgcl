@@ -83,7 +83,7 @@
                             <tr data-toggle="collapse" data-target="#col{{$order->id}}">
                                 <td>{{$order->company->name}}</td>
                                 <td>{{$order->items->name}}</td>
-                                <td>{{$order->rate}}</td>
+                                <td>@money($order->rate)</td>
                             @if ($order->status == 0)
                                 <td class="bg-primary text-white">Open</td>
                             @else
@@ -95,7 +95,7 @@
                                     <strong><p>PO - {{$order->PO}}.&emsp;&emsp;
                                         @if ($order->quantity < 1000) {{$order->quantity}}{{$order->items->unit}}
                                         @else {{$order->quantity / 1000}} MT @endif
-                                        @ {{$order->rate}} Tk. &emsp;&emsp;
+                                        @ @money($order->rate) &emsp;&emsp;
                                         @if ($order->status == 0)
                                         <a href="/orders/{{$order->id}}/edit" class="btn btn-info btn-sm  float-right" data-toggle="modal" data-target=".mod-{{$order->id}}">Update Status</a>   
                                         @endif
@@ -105,7 +105,7 @@
                                         @if ($sale->orders_id == $order->id)
                                             <p>{{$sale->created_at->format('j M, y')}} - &emsp;
                                                Shipped : {{$sale->quantity}} {{$sale->orders->items->unit}} - &emsp;
-                                               Expanse : {{$sale->expanse}} Tk.<hr>
+                                               Expanse : @money($sale->expanse)<hr>
                                             </p>
                                         @endif
                                     @endforeach

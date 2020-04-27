@@ -81,7 +81,7 @@
                             <tr data-toggle="collapse" data-target="#expanse-{{$expanse->id}}">  
                             <td>{{$expanse->created_at->format('j M, y')}}</td>
                             <td>{{$expanse->type}} <br> @if ($expanse->user_id)[ {{$expanse->user->name}} ]@endif </td>
-                            <td>{{$expanse->amount}}</td>
+                            <td>@money($expanse->amount)</td>
                             @php $total += $expanse->amount; @endphp
                             </tr>
                             <tr id="expanse-{{$expanse->id}}" class="collapse out">
@@ -91,7 +91,7 @@
                         <tr>
                             <th></th>
                             <th>Total →</th>
-                            <th>@php echo $total; @endphp</th>
+                            <th>@money($total)</th>
                         </tr>
                     </table>
                 @else

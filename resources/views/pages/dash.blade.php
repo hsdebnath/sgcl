@@ -27,7 +27,7 @@
                             <tr data-toggle="collapse" data-target="#banks{{$bank->id}}">    
                             <td>{{$bank->name}}</td>
                             <td>{{$bank->branch}}</td>
-                            <td>{{$bank->balance}} ~</td>
+                            <td>@money($bank->balance) ~</td>
                             @php $bank_total += $bank->balance; @endphp 
                             </tr>
                             <tr id="banks{{$bank->id}}" class="collapse out">
@@ -35,7 +35,7 @@
                                     <p>{{$bank->name}}<br>
                                         {{$bank->branch}} branch<br>
                                         A/C {{$bank->ac_number}}<br>
-                                        Balance : {{$bank->balance}} ~<br>
+                                        Balance : @money($bank->balance) ~<br>
                                     </p>
                                 </td>
                             </tr>
@@ -43,7 +43,7 @@
                         <tr>
                             <th></th>
                             <th>total</th>
-                            <th>@php echo $bank_total; @endphp ~</th>
+                            <th>@money($bank_total) ~</th>
                         </tr>
                     </table>
                     @endif    
@@ -69,20 +69,20 @@
                         <tr>
                             <td>{{$item->name}}</td>
                             @if ($item->balance < 0 )
-                                <td>{{-1 * $item->balance}}</td>
+                                <td>@money(-1 * $item->balance)</td>
                                 <td> 0</td>   
                                 @php $pay += (-1 * $item->balance); @endphp 
                             @else 
                                 <td>0</td>
-                                <td>{{$item->balance}}</td>
+                                <td>@money($item->balance)</td>
                                 @php $rcv += $item->balance; @endphp 
                             @endif
                         </tr>    
                         @endforeach
                         <tr class="font-weight-bolder font-italic">
                             <th>Total →</th>
-                            <th>@php echo $pay; @endphp </th>
-                            <th>@php echo $rcv; @endphp </th>
+                            <th>@money($pay)</th>
+                            <th>@money($rcv)</th>
                         </tr>
                     </table>
                     {{-- Payable/ Recieveable table end--}}
@@ -94,24 +94,24 @@
                     <table class="table table-bordered">
                         <tr class="alert-success">
                             <th>Total Cash In Hand →</th>
-                            <th>@php echo $bank_total; @endphp </th>
+                            <th>@money( $bank_total)</th>
                         </tr>
                         <tr class="alert-success">
                             <th>Total Inventory Valuation →</th>
-                            <th>@php echo $inventory; @endphp </th>
+                            <th>@money($inventory)</th>
                         </tr>
                         <tr class="alert-danger">
                             <th>Total Payable →</th>
-                            <th>@php echo $pay; @endphp </th>
+                            <th>@money($pay)</th>
                         </tr>
                         <tr class="alert-success">
                             <th>Total Recieveable →</th>
-                            <th>@php echo $rcv; @endphp </th>
+                            <th>@money($rcv)</th>
                         </tr>    
                         <tfoot class="bg-info">
                             @php $total = ($bank_total+$inventory+$rcv)-$pay ; @endphp
                             <th>Balance</th>
-                            <th>@php echo $total; @endphp </th>
+                            <th>@money($total)</th>
                         </tfoot>    
                     </table>
                     {{-- Balance table end--}}
@@ -134,7 +134,7 @@
                             <tr data-toggle="collapse" data-target="#order{{$order->id}}">
                                 <td>{{$order->company->name}}</td>
                                 <td>{{$order->items->name}}</td>
-                                <td>{{$order->rate}}</td>
+                                <td>@money($order->rate)</td>
                             @if ($order->status == 0)
                                 <td class="alert-primary">Open</td>
                             @else
@@ -144,14 +144,14 @@
                             <tr id="order{{$order->id}}" class="collapse out">
                                 <td colspan="4">
                                     <strong><p>PO - {{$order->PO}}.&emsp;&emsp;
-                                        {{$order->quantity}}{{$order->items->unit}} @ {{$order->rate}} Tk. &emsp;&emsp;
+                                        {{$order->quantity}}{{$order->items->unit}} @  @money($order->rate) &emsp;&emsp;
                                                                                
                                     </p></strong><hr>
                                     @foreach ($sales as $sale)  
                                         @if ($sale->orders_id == $order->id)
                                             <p>{{$sale->created_at->format('j M, y')}} - &emsp;
                                                Shipped : {{$sale->quantity}} {{$sale->orders->items->unit}} - &emsp;
-                                               Expanse : {{$sale->expanse}} Tk.<hr>
+                                               Expanse : @money($sale->expanse)<hr>
                                             </p>
                                         @endif
                                     @endforeach
@@ -178,14 +178,14 @@
                         @foreach ($purchase as $pur)
                             <tr data-toggle="collapse" data-target="#purchase{{$pur->id}}"> 
                             <td>{{$pur->items->name}}</td>
-                            <td>{{$pur->rate}}</td>
+                            <td>@money($pur->rate)</td>
                             <td>{{$pur->quantity}} {{$pur->items->unit}}</td>
                             </tr>
                             <tr id="purchase{{$pur->id}}" class="collapse out">
                                 <td colspan="4">
                                     <p>{{$pur->items->name}} <br>
                                         From: {{$pur->items->company->name}} <br>
-                                        {{$pur->quantity}} {{$pur->items->unit}} @ {{$pur->rate}} Tk.<br>
+                                        {{$pur->quantity}} {{$pur->items->unit}} @ @money($pur->rate)<br>
                                     </p>
                                 </td>
                             </tr>
@@ -210,7 +210,7 @@
                                 <tr data-toggle="collapse" data-target="#expanse-{{$expanse->id}}">  
                                 <td>{{$expanse->created_at->format('j M, y')}}</td>
                                 <td>{{$expanse->type}} <br> @if ($expanse->user_id)[ {{$expanse->user->name}} ]@endif </td>
-                                <td>{{$expanse->amount}}</td>
+                                <td>@money($expanse->amount)</td>
                                 @php $total += $expanse->amount; @endphp
                                 </tr>
                                 <tr id="expanse-{{$expanse->id}}" class="collapse out">
@@ -220,7 +220,7 @@
                             <tr>
                                 <th></th>
                                 <th>Total →</th>
-                                <th>@php echo $total; @endphp</th>
+                                <th>@money($total)</th>
                             </tr>
                         </table>
                     @endif
@@ -240,12 +240,12 @@
                             <tr data-toggle="collapse" data-target="#col{{$fund->id}}">  
                             <td>{{$fund->by}}</td>
                             <td>{{$fund->type}}</td>
-                            <td>{{$fund->amount}}</td>
+                            <td>@money($fund->amount)</td>
                             </tr>
                             <tr id="col{{$fund->id}}" class="collapse out">
                                 <td colspan="3">
-                                    <p>[{{$fund->created_at}}]<br>
-                                        {{$fund->amount}} Tk. {{$fund->type}} <br>
+                                    <p>[{{$fund->created_at->format('j M, y')}}]<br>
+                                        @money($fund->amount) {{$fund->type}} <br>
                                         By {{$fund->by}} <br>
                                         [{{$fund->note}}]
                                     </p>

@@ -80,12 +80,12 @@
                             <tr data-toggle="collapse" data-target="#col{{$fund->id}}">  
                             <td>{{$fund->by}}</td>
                             <td>{{$fund->type}}</td>
-                            <td>{{$fund->amount}}</td>
+                            <td>@money($fund->amount)</td>
                             </tr>
                             <tr id="col{{$fund->id}}" class="collapse out">
                                 <td colspan="3">
                                     <p>[{{$fund->created_at->format('j M, y')}}]<br>
-                                        {{$fund->amount}} Tk. {{$fund->type}} <br>
+                                        @money($fund->amount) {{$fund->type}} <br>
                                         By {{$fund->by}} <br>
                                         [{{$fund->note}}]
                                     </p>

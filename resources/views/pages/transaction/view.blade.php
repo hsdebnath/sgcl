@@ -134,9 +134,9 @@
                         @if ($comp->id == $account->company_id)
                         <tr>   
                             <td>{{$account->created_at->format('j M, y')}}</td>
-                            <td>{{$account->debit}}</td>
-                            <td>{{$account->credit}}</td>
-                            <td>{{$account->balance}}</td>
+                            <td>@money($account->debit)</td>
+                            <td>@money($account->credit)</td>
+                            <td>@money($account->balance)</td>
                             <td>{{$account->note}}</td>
 
                             @php $debit += $account->debit;  $credit += $account->credit; $balance = $account->balance; @endphp
@@ -146,8 +146,8 @@
                         @endforeach
                         <tfoot>
                             <th></th>
-                            <th> @php echo $debit; @endphp</th>
-                            <th> @php echo $credit; @endphp</th>
+                            <th> @money($debit)</th>
+                            <th> @money($credit)</th>
                             <th></th>
                             <th></th>
                         </tfoot>

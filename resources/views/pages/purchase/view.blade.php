@@ -79,14 +79,14 @@
                         @foreach ($purchase as $pur)
                             <tr data-toggle="collapse" data-target="#col{{$pur->id}}"> 
                             <td>{{$pur->items->name}}</td>
-                            <td>{{$pur->rate}}</td>
+                            <td>@money($pur->rate)</td>
                             <td>{{$pur->quantity}} {{$pur->items->unit}}</td>
                             </tr>
                             <tr id="col{{$pur->id}}" class="collapse out">
                                 <td colspan="4">
                                     <p>{{$pur->items->name}} <br>
                                         From: {{$pur->items->company->name}} <br>
-                                        {{$pur->quantity}} {{$pur->items->unit}} @ {{$pur->rate}} Tk.<br>
+                                        {{$pur->quantity}} {{$pur->items->unit}} @ @money($pur->rate) Tk.<br>
                                     </p>
                                 </td>
                             </tr>

@@ -82,17 +82,17 @@
                             <tr data-toggle="collapse" data-target="#col{{$sale->id}}">
                                 <td>{{$sale->orders->company->name}}</td>
                                 <td>{{$sale->orders->items->name}}</td>
-                                <td>{{$sale->orders->rate}}</td> 
+                                <td>@money($sale->orders->rate)</td> 
                                 @php $profit = (($sale->orders->rate * $sale->quantity) - $sale->expanse) - ($sale->purchase_rate * ($sale->quantity + $sale->loss)); @endphp
-                                <td>@php echo $profit; @endphp</td> 
+                                <td>@money($profit)</td> 
                                 @php $total += $profit; @endphp
                             </tr>
                             <tr id="col{{$sale->id}}" class="collapse out">
                                 <td colspan="4">
                                     <p> {{$sale->orders->company->name}} [ {{$sale->created_at->format('j M, y')}} ]<br>
                                         {{$sale->orders->items->name}}<br>
-                                        {{$sale->quantity}} {{$sale->orders->items->unit}} @ {{$sale->orders->rate}}Tk<br>
-                                        Expanse -{{$sale->expanse}} || loss Expanse -{{$sale->loss}} {{$sale->orders->items->unit}}<br>
+                                        {{$sale->quantity}} {{$sale->orders->items->unit}} @ @money($sale->orders->rate)<br>
+                                        Expanse -@money($sale->expanse) || loss Expanse -{{$sale->loss}} {{$sale->orders->items->unit}}<br>
                                     </p>
                                 </td>
                             </tr>
@@ -101,7 +101,7 @@
                             <th></th>
                             <th></th>
                             <th>Total Profit</th>
-                            <th>@php echo $total; @endphp</th>
+                            <th>@money($total)</th>
                         </tr>
                     </table>
                     {{-- <div>{{$sales->links()}}</div> --}}
