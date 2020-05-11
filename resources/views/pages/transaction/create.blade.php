@@ -17,6 +17,11 @@
                     <h1>Transaction</h1>
                     {!! Form::open(['action' => 'AccountsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         
+                        <div class="form-group">
+                            {{Form::label('date', 'Date')}}
+                            {{Form::date('date', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Date'])}}
+                        </div>
+
                         {{-- select box code --}}
                         <div class="form-group">
                             {{Form::label('type', 'Transaction Type')}}
