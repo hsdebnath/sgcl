@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes([ 'register' => false]);
 
 
 Route::get('/home', 'PagesController@index');
@@ -23,6 +23,10 @@ Route::get('/home', 'PagesController@index');
 Route::get('/dash', 'PagesController@dash');
 
 Route::get('/users', 'PagesController@users');
+
+Route::get('/create', 'PagesController@user_create');
+
+Route::post('/create', 'PagesController@user_store');
 
 Route::resource('items', 'ItemsController');
 

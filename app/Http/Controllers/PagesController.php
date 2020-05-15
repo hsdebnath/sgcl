@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Company;
 use App\Bank;
@@ -70,7 +71,41 @@ class PagesController extends Controller
     public function users()
     {
         $users = user::all();
-        return view('pages.users')->with('users',$users);
+        return view('pages.user.view')->with('users',$users);
+    }
+
+
+    public function user_create()
+    {
+        //return route('register');
+        return view('pages.user.create');
+    }
+
+
+    public function user_store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:20', 'unique:users'],
+            'phone' => ['required', 'string', 'max:14', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:4', 'confirmed'],
+        ]);
+        
+        $user_company = Auth::user()->company_id;
+
+        //create bank
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->username = $request->input('username');
+        $user->phone = $request->input('phone');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->company_id = $user_company;
+        $user->save();
+
+        return redirect('/users')->with('success', 'User Added !! ');
+
     }
     
 }
