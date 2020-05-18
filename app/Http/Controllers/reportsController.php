@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Expanse;
 use App\Sales;
 use Carbon\Carbon;
+use App\Traits\PushMsg;
 
 class reportsController extends Controller
 {   
