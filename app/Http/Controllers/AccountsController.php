@@ -160,6 +160,7 @@ class AccountsController extends Controller
             $bank_balance -= $input_amount; 
             $bank = bank::where('companies_id', $user_company)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
 
+                $push = $this->sendPushNotification($request->input('note'));
                 return redirect('/account')->with('success', 'Transaction Added !! ');
 
             }elseif($request->input('type') == 2){ //I recieved payment from
