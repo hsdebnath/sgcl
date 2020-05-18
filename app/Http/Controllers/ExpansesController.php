@@ -9,9 +9,11 @@ use App\Expanse;
 use App\User;
 use App\Account;
 use App\Bank;
+use App\Traits\PushMsg;
 
 class ExpansesController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -142,6 +144,8 @@ class ExpansesController extends Controller
 
             $account->save();
             $expanse->save();
+
+            $push = $this->sendPushNotification($request->input('note'));
             return redirect('/expanse')->with('success', 'Expance added !');
         }
     }

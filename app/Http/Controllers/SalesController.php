@@ -8,10 +8,12 @@ use App\Sales;
 use App\Order;
 use App\Account;
 use App\Inventory;
+use App\Traits\PushMsg;
 
 
 class SalesController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -147,6 +149,7 @@ class SalesController extends Controller
             $sales->save();
             $account->save();
 
+            $push = $this->sendPushNotification("New Product Delivered !!");
             return redirect('/sales')->with('success', 'Item Sold !');
         }
     }    

@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Company;
 use App\Account;
+use App\Traits\PushMsg;
 
 class CompaniesController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -69,7 +71,8 @@ class CompaniesController extends Controller
         $account->note = "Opening balance of ".$company->name;
         $account->save();
 
-        return redirect('/company')->with('success', 'Company added !');
+        $push = $this->sendPushNotification("New Company added !!");
+        return redirect('/company')->with('success', 'Company added !!');
     }
 
     /**

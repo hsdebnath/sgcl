@@ -8,9 +8,11 @@ use Carbon\Carbon;
 use App\Fund;
 use App\Account;
 use App\Bank;
+use App\Traits\PushMsg;
 
 class FundsController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -123,6 +125,8 @@ class FundsController extends Controller
 
             $account->save();
             $funds->save();
+
+            $push = $this->sendPushNotification($request->input('note'));
             return redirect('/fund')->with('success', 'Fund added !');
         }
     }

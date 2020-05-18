@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Items;
 use App\Company;
 use DB;
+use App\Traits\PushMsg;
 
 class ItemsController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -29,49 +31,6 @@ class ItemsController extends Controller
        return view('pages.items.all')->with('items',$items);
 
     }
-
-    //Push notification start
-    public function sendPushNotification() {  
-        
-        $push_notification_key = 'BMlciB_4RCZSEVp-4Y2Rw-Lu7H43XnGyscCR2ZveXRJLp4dXfy6tRvPtJgTJgxY7PHbMWjDj8F68qsEggrBB_sM';    
-        $fcm_token = 'AAAA4xNFToM:APA91bF4VEqwSPQmJJGloUVsVo1lTtP7Y0RdBNou5Pa99-fnWhVhFc3dNT-hfoaWWOuagAZTMthXtI0L-Nn-hFJ8WPR8_w4holvrEKdFFrD5AsQ_rPDVeFmdoafLQtjrnB7ZAHfrgGXR';
-        $url = "https://fcm.googleapis.com/fcm/send";            
-        $header = array("authorization: key=" . $push_notification_key . "",
-            "content-type: application/json"
-        );    
-
-        $postdata = '{
-            "to" : "' . $fcm_token . '",
-                "notification" : {
-                    "title":"MSG TITLE",
-                    "text" : "MSG MSG MSG"
-                },
-            "data" : {
-                "id" : "007",
-                "title":"MSG TITLE",
-                "description" : "MSG MSG MSG",
-                "text" : "MSG MSG MSG",
-                "is_read": 0
-                }
-        }';
-
-        $ch = curl_init();
-        $timeout = 120;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-
-        // Get URL content
-        $result = curl_exec($ch);    
-        // close handle to release resources
-        curl_close($ch);
-
-        return $result;
-    }
-    //Push notification end
 
     /**
      * Show the form for creating a new resource.
@@ -109,6 +68,8 @@ class ItemsController extends Controller
         $item->unit = $request->input('unit');
         $item->save();
 
+
+        $push = $this->sendPushNotification("New item Added !!");
         return redirect('/items')->with('success', 'Item added !');
     }
 

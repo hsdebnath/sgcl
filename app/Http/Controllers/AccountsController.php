@@ -9,9 +9,11 @@ use App\User;
 use App\Company;
 use App\Account;
 use App\Bank;
+use App\Traits\PushMsg;
 
 class AccountsController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -194,6 +196,7 @@ class AccountsController extends Controller
             $bank_balance += $input_amount; 
             $bank = bank::where('companies_id', $user_company)->where('id', $request->input('bank'))->update(['balance' => $bank_balance]);
 
+                $push = $this->sendPushNotification($request->input('note'));
                 return redirect('/account')->with('success', 'Transaction Added !! ');
 
             }else{

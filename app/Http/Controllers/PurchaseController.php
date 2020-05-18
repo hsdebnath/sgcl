@@ -9,9 +9,11 @@ use App\Purchase;
 use App\Company;
 Use App\Account;
 use App\Inventory;
+use App\Traits\PushMsg;
 
 class PurchaseController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -154,6 +156,7 @@ class PurchaseController extends Controller
         $purchase->save();
         $account->save();
 
+        $push = $this->sendPushNotification("New Product purchased !!");
         return redirect('/inventory')->with('success', 'Item purchased !');
     }
 

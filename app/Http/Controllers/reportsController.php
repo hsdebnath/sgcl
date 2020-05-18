@@ -8,7 +8,8 @@ use App\Sales;
 use Carbon\Carbon;
 
 class reportsController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *

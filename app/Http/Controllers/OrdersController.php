@@ -10,9 +10,11 @@ use App\Sales;
 use\App\Company;
 use\App\Items;
 use DB;
+use App\Traits\PushMsg;
 
 class OrdersController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -99,6 +101,7 @@ class OrdersController extends Controller
             $order->status = '0';
             $order->save();
 
+            $push = $this->sendPushNotification("New Order recieved !!");
             return redirect('/orders')->with('success', 'Order added !');
         }    
     }

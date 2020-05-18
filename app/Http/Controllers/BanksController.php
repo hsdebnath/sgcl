@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Bank;
 use App\Account;
+use App\Traits\PushMsg;
 
 class BanksController extends Controller
-{
+{   
+    use PushMsg;
     /**
      * Display a listing of the resource.
      *
@@ -81,6 +83,7 @@ class BanksController extends Controller
         $bank->save();
         $user_account->save();
 
+        $push = $this->sendPushNotification("New Bank Added !! ");
         return redirect('/bank')->with('success', 'Bank Added !! ');
 
         

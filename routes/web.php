@@ -20,6 +20,10 @@ Auth::routes([ 'register' => false]);
 
 Route::get('/home', 'PagesController@index');
 
+Route::get('/token', 'TokenController@token');
+
+Route::post('/token', 'TokenController@token');
+
 Route::get('/dash', 'PagesController@dash');
 
 Route::get('/users', 'PagesController@users');
@@ -27,6 +31,10 @@ Route::get('/users', 'PagesController@users');
 Route::get('/create', 'PagesController@user_create');
 
 Route::post('/create', 'PagesController@user_store');
+
+Route::get('/push', 'PagesController@push');
+
+Route::post('/push', 'PagesController@sendPushNotification');
 
 Route::resource('items', 'ItemsController');
 

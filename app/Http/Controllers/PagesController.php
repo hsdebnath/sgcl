@@ -15,10 +15,15 @@ use App\Purchase;
 use App\Expanse;
 use App\Fund;
 use App\Inventory;
+use App\Token;
+use App\Traits\PushMsg;
 use DB;
 
 class PagesController extends Controller
 {
+    use PushMsg;
+
+
     /**
      * Create a new controller instance.
      *
@@ -104,10 +109,19 @@ class PagesController extends Controller
         $user->company_id = $user_company;
         $user->save();
 
+        $push = $this->sendPushNotification("New User Added !!");
         return redirect('/users')->with('success', 'User Added !! ');
 
     }
-    
+
+
+
+    public function push()
+    {   
+        $push = $this->sendPushNotification("kobe holo !!");
+        return redirect('/dash');
+    }
+ 
 }
 
 // // get last balance of all companies
