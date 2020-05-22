@@ -27,7 +27,7 @@ class reportsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the Form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
