@@ -97,6 +97,9 @@ class AccountsController extends Controller
                 'bank' => 'required',
                 'note' => 'required'
             ]);
+
+            $input_date = date('Y-m-d h:i:s',strtotime($request->input('date')));
+            //return $input_date;
             
             $input_amount = $request->input('amount');
             $client_company = $request->input('company');
@@ -134,7 +137,7 @@ class AccountsController extends Controller
                 $client_balance += $client_debit - $client_credit;
 
                 $client_account = new account;
-                $client_account->created_at = $request->input('date');
+                $client_account->created_at = $input_date;
                 $client_account->company_id = $client_company;
                 $client_account->debit = $client_debit;
                 $client_account->credit = $client_credit;
@@ -148,7 +151,7 @@ class AccountsController extends Controller
                 $user_balance += $user_debit - $user_credit;
 
                 $user_account = new account;
-                $user_account->created_at = $request->input('date');
+                $user_account->created_at = $input_date;
                 $user_account->company_id = $user_company;
                 $user_account->debit = $user_debit;
                 $user_account->credit = $user_credit;
@@ -171,7 +174,7 @@ class AccountsController extends Controller
                 $client_balance += $client_debit - $client_credit;
 
                 $client_account = new account;
-                $client_account->created_at = $request->input('date');
+                $client_account->created_at = $input_date;
                 $client_account->company_id = $client_company;
                 $client_account->debit = $client_debit;
                 $client_account->credit = $client_credit;
@@ -185,7 +188,7 @@ class AccountsController extends Controller
                 $user_balance += $user_debit - $user_credit;
 
                 $user_account = new account;
-                $user_account->created_at = $request->input('date');
+                $user_account->created_at = $input_date;
                 $user_account->company_id = $user_company;
                 $user_account->debit = $user_debit;
                 $user_account->credit = $user_credit;

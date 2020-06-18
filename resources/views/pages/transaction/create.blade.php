@@ -19,7 +19,8 @@
                         
                         <div class="form-group">
                             {{Form::label('date', 'Date')}}
-                            {{Form::date('date', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Date'])}}
+                            {{-- {{Form::date('datetime-local', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Date'])}} --}}
+                            <input type="datetime-local" name="date" id="article-ckeditor" class = 'form-control' placeholder = 'Date' />
                         </div>
 
                         {{-- select box code --}}
