@@ -42,8 +42,8 @@ class ItemsController extends Controller
         //$users = user::all();
         $my_company =  Auth::user()->company_id;
         $users = company::where('id', '!=', $my_company)->pluck('name', 'id');
-        $noti = $this->sendPushNotification();
-        return $noti;
+        $noti = $this->sendPushNotification("New item has been added to list");
+        //return $noti;
         return view('pages.items.create')->with('users', $users);
     }
 
