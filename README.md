@@ -1,2 +1,2 @@
 # sgcl
-project of corona lockdown
+project of Laravel
